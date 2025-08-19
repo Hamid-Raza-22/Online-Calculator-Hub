@@ -25,6 +25,9 @@ class CustomDropdown extends StatelessWidget {
           initialValue: value,
           onChanged: onChanged,
           decoration: InputDecoration(
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.black,width: 2)
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
             ),

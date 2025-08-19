@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:online_calculator_hub/utils/Constants/colors.dart';
 
 class CustomInputField extends StatelessWidget {
   final String label;
@@ -26,8 +25,9 @@ class CustomInputField extends StatelessWidget {
           keyboardType: keyboardType,
           decoration: InputDecoration(
             hintText: hintText,
+            hintStyle: TextStyle(color: Colors.grey),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.PrimaryColor)
+              borderSide: BorderSide(color: Colors.black,width: 2)
             ),
             border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.black),
