@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:online_calculator_hub/screens/BMI%20Calculator/BMI_calculator_view.dart';
+import 'package:online_calculator_hub/screens/Calories%20Calculator/Calories_calculator_view.dart';
+import 'package:online_calculator_hub/utils/Constants/toolsTexts.dart';
 import 'package:online_calculator_hub/widgets/custom_card_widget.dart';
 
 class CustomGridView extends StatelessWidget {
@@ -17,24 +19,17 @@ class CustomGridView extends StatelessWidget {
             spacing: 8,
             children: [
               BottomElevatedCard(
-                text: "BMI Calculator",
+                text: Toolstexts.BMI,
                 onTap: () {
-                  Get.to(BmiCalculatorView(title:"BMI Calculator" ,));
-                  Get.snackbar(
-                    'BMI Calculator',
-                    'This is a simple GetX snackbar!',
-                    backgroundColor: Colors.blue
-                  );
+                  Get.to(BmiCalculatorView(title:Toolstexts.BMI ,));
+                  
                 },
                 C_icon: Icons.health_and_safety,
               ),
               BottomElevatedCard(
-                text: "Calorie Calculator",
+                text: Toolstexts.Calorie_Calculator,
                 onTap: () {
-                  Get.snackbar(
-                    'Title',
-                    'This is a simple GetX snackbar!',
-                  );
+                  Get.to(CaloriesCalculatorView(title:  Toolstexts.Calorie_Calculator));
                 },
                 C_icon: Icons.health_and_safety,
               ),

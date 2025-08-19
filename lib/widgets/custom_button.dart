@@ -17,7 +17,8 @@ class CustomTextButton extends StatelessWidget {
     this.textColor = Colors.blue,
     this.fontSize = 16,
     this.fontWeight = FontWeight.normal,
-    this.padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 8), required this.buttonColor,
+    this.padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+    required this.buttonColor,
   });
 
   @override

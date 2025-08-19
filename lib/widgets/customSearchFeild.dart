@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomSearchField extends StatelessWidget {
   final IconData? icon;
   final String hintText;
  final String? labelText;
 
-  const CustomTextField(
+  const CustomSearchField(
       {super.key,
        this.icon,
         required this.hintText,

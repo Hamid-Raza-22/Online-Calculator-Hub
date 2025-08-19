@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:online_calculator_hub/utils/Constants/colors.dart';
+import 'package:online_calculator_hub/widgets/Text_widget.dart';
 import 'package:online_calculator_hub/widgets/custom_grid_view.dart';
 
-import '../../widgets/customTextFeild.dart';
+import '../../widgets/customSearchFeild.dart';
 
 class HomescreenView extends StatelessWidget {
   const HomescreenView({super.key});
@@ -10,24 +12,30 @@ class HomescreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("All tools App"),
-        backgroundColor: Colors.pink,
+        title: TextWidget(
+          text: "All-in-One Online Calculators",
+          fontSize: 22,
+          weight: FontWeight.w600,
+          textcolor: Colors.white,),
+        backgroundColor: AppColors.PrimaryColor,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 16.0,left: 20.0,right: 16),
+          padding: const EdgeInsets.only(top: 16.0, left: 20.0, right: 16),
           child: Column(
             spacing: 10,
             children: [
-        
-              Text("All-in-One Online Calculators",style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-        
-              ),),
-              CustomTextField(hintText: "Search Calculators...", icon:Icons.search,),
+
+              TextWidget(
+                  text: "Free, fast, and accurate calculator tools for all your daily needs",
+                  fontSize: 18,
+                  weight:FontWeight.w600,
+              textcolor: AppColors.PrimaryColor,),
+
+              CustomSearchField(
+                hintText: "Search Calculators...", icon: Icons.search,),
               CustomGridView()
-        
+
             ],
           ),
         ),

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../utils/Constants/colors.dart';
+
 class BottomElevatedCard extends StatelessWidget {
   const BottomElevatedCard({
     super.key,
     required this.text,
     required this.onTap,
-    this.backgroundColor = Colors.black38,
+    this.backgroundColor =AppColors.PrimaryColor,
     this.borderRadius = 12,this.C_icon,
   });
 
@@ -22,15 +24,7 @@ class BottomElevatedCard extends StatelessWidget {
       width: 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
-        // bottom-only elevation look
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black26,
-            offset: Offset(0, 6), // pushes shadow downward
-            blurRadius: 14,
-            spreadRadius: 0,
-          ),
-        ],
+
       ),
       child: Material(
         color: backgroundColor,
