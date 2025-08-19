@@ -15,15 +15,18 @@ class _CheckBoxExampleState extends State<CheckBoxWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return CheckboxListTile(
-          title: Text(widget.title),
-          value: isChecked,
-          onChanged: (bool? value) {
-            setState(() {
-              isChecked = value ?? false;
-            });
-          },
-          controlAffinity: ListTileControlAffinity.leading,
+    return Container(
+      height: 30,
+      child: CheckboxListTile(
+            title: Text(widget.title),
+            value: isChecked,
+            onChanged: (bool? value) {
+              setState(() {
+                isChecked = value ?? false;
+              });
+            },
+            controlAffinity: ListTileControlAffinity.leading,
+      ),
     );
   }
 }

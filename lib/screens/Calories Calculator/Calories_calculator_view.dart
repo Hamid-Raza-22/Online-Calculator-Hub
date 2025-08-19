@@ -31,7 +31,7 @@ class CaloriesCalculatorView extends StatelessWidget {
                     "Calculate your daily calorie needs based on your age, gender, weight, height, and activity level.",
                 fontSize: 16,
                 weight: FontWeight.normal,
-                textcolor: Colors.grey,
+                textcolor: Colors.black26,
               ),
               CustomDropdown(
                 label: "Gender",

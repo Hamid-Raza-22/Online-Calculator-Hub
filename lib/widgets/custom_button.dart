@@ -4,6 +4,7 @@ class CustomTextButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final Color textColor;
+  final double size;
   final Color buttonColor;
   final double fontSize;
   final FontWeight fontWeight;
@@ -18,14 +19,14 @@ class CustomTextButton extends StatelessWidget {
     this.fontSize = 16,
     this.fontWeight = FontWeight.w600,
     this.padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-    required this.buttonColor,
+    required this.buttonColor,this.size=340,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        fixedSize: const Size(340, 45),
+        fixedSize: Size(size, 45),
         padding: padding,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         backgroundColor: buttonColor,

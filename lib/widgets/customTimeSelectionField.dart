@@ -21,7 +21,7 @@ class _SimpleTimeFieldState extends State<Customtimeselectionfield> {
     );
 
     if (picked != null) {
-      final now = DateTime.now();
+      // final now = DateTime.now();
       // final dt = DateTime(now.year, now.month, now.day, picked.hour, picked.minute);
     }
   }
