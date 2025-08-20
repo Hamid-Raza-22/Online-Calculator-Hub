@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:online_calculator_hub/utils/Constants/colors.dart';
 import 'package:online_calculator_hub/widgets/CustomInputFeild.dart';
 import 'package:online_calculator_hub/widgets/Text_widget.dart';

@@ -4,6 +4,7 @@ class TextWidget extends StatelessWidget {
   final String text;
   final Color textcolor;
   final double fontSize;
+  final TextAlign align;
   final FontWeight weight;
 
 
@@ -12,13 +13,13 @@ class TextWidget extends StatelessWidget {
     required this.text,
     required this.fontSize,
     required this.weight,
-    this.textcolor=Colors.black,
+    this.textcolor=Colors.black,  this.align=TextAlign.center,
   });
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      textAlign:TextAlign.center,
+      textAlign:align,
       softWrap: true,
       text,
       style: TextStyle(

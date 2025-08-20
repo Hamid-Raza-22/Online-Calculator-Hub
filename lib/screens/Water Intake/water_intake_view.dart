@@ -32,9 +32,10 @@ class WaterIntakeView extends StatelessWidget {
                     "Calculate your daily water intake requirements based on your weight, activity level, and climate.",
                 fontSize: 16,
                 weight: FontWeight.normal,
-                textcolor: Colors.grey,
+                textcolor: Colors.black,
+                align: TextAlign.start,
               ),
-        
+
               CustomInputField(
                 label: 'Weight',
                 hintText: '70',
@@ -51,10 +52,27 @@ class WaterIntakeView extends StatelessWidget {
                 items: ["Normal/Moderate", "Hot/Humid", "Cold/Dry"],
                 onChanged: (value) => () {},
               ),
-              SizedBox(height: 5,),
-              CustomTextButton(text: "Calculate Water Intake", onPressed:(){}, buttonColor:AppColors.PrimaryColor,textColor: Colors.white,),
-              TextWidget(text: "Staying Hydrated", fontSize: 18, weight: FontWeight.w600,textcolor: AppColors.PrimaryColor,),
-              TextWidget(text: "Proper hydration is essential for maintaining body temperature, removing waste, and lubricating joints. Your water needs depend on many factors including activity level, climate, and overall health.", fontSize: 16, weight: FontWeight.normal,textcolor: Colors.grey,)
+              SizedBox(height: 5),
+              CustomTextButton(
+                text: "Calculate Water Intake",
+                onPressed: () {},
+                buttonColor: AppColors.PrimaryColor,
+                textColor: Colors.white,
+              ),
+              TextWidget(
+                text: "Staying Hydrated",
+                fontSize: 18,
+                weight: FontWeight.w600,
+                textcolor: AppColors.PrimaryColor,
+              ),
+              TextWidget(
+                text:
+                    "Proper hydration is essential for maintaining body temperature, removing waste, and lubricating joints. Your water needs depend on many factors including activity level, climate, and overall health.",
+                fontSize: 16,
+                weight: FontWeight.normal,
+                textcolor: Colors.grey,
+                align: TextAlign.start,
+              ),
             ],
           ),
         ),

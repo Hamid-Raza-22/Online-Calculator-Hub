@@ -23,16 +23,16 @@ class WordCounterView extends StatelessWidget {
               Container(
 
                 decoration: BoxDecoration(
-                  color: Colors.cyan,
+                  color: Colors.cyan.withValues(alpha: 0.5),
                   borderRadius: BorderRadius.circular(12)
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(top: 8.0,left: 8.0),
                   child: Column(
                     spacing: 20,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Text Statistics:"),
+                      Text("Text Statistics:",style: TextStyle(fontWeight: FontWeight.w600),),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -41,11 +41,15 @@ class WordCounterView extends StatelessWidget {
                         Customcountscontainer(count: 0, text: 'Characters', count_color: Colors.black),
 
                       ],),
-                      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                         Customcountscontainer(count: 0, text: 'Sentences', count_color: Colors.deepPurple),
                         Customcountscontainer(count: 0, text: 'Paragraphs', count_color: Colors.pink),
-                        Customcountscontainer(count: 0, text: 'Avg Word Length', count_color: Colors.brown),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 3.0),
+                          child: Customcountscontainer(count: 0, text: 'Avg Word Length', count_color: Colors.brown),
+                        ),
                         Customcountscontainer(count: 0, text: 'Reading Time', count_color: Colors.black),
                       ],)
                     ],
