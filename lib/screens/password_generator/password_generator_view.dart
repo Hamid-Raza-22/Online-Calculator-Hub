@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:online_calculator_hub/utils/Constants/colors.dart';
-import 'package:online_calculator_hub/widgets/Text_widget.dart';
-import 'package:online_calculator_hub/widgets/customAppBar.dart';
-import 'package:online_calculator_hub/widgets/customCheckBoxWidget.dart';
-import 'package:online_calculator_hub/widgets/customSlider.dart';
+import 'package:online_calculator_hub/widgets/custom_text.dart';
+import 'package:online_calculator_hub/widgets/custom_app_bar.dart';
+import 'package:online_calculator_hub/widgets/custom_check_box.dart';
+import 'package:online_calculator_hub/widgets/custom_slider.dart';
 import 'package:online_calculator_hub/widgets/custom_button.dart';
 
 

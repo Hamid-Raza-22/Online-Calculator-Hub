@@ -8,12 +8,12 @@ class BottomElevatedCard extends StatelessWidget {
     required this.text,
     required this.onTap,
     this.backgroundColor =AppColors.PrimaryColor,
-    this.borderRadius = 12,this.C_icon,
+    this.borderRadius = 12,this.cIcon=Icons.add,
   });
 
   final String text;
   final VoidCallback onTap;
-  final C_icon;
+  final IconData cIcon;
   final Color backgroundColor;
   final double borderRadius;
 
@@ -38,7 +38,7 @@ class BottomElevatedCard extends StatelessWidget {
               spacing: 4,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(C_icon,color: Colors.white,),
+                Icon(cIcon,color: Colors.white,),
                 Text(
                   text,
                   softWrap: true,

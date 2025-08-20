@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:online_calculator_hub/utils/Constants/colors.dart';
-import 'package:online_calculator_hub/widgets/CustomInputFeild.dart';
-import 'package:online_calculator_hub/widgets/custom_InfoDropDown.dart';
-import 'package:online_calculator_hub/widgets/Text_widget.dart';
-import 'package:online_calculator_hub/widgets/customAppBar.dart';
-import 'package:online_calculator_hub/widgets/customDropdown.dart';
+import 'package:online_calculator_hub/widgets/custom_input_field.dart';
+import 'package:online_calculator_hub/widgets/custom_info_drop_down.dart';
+import 'package:online_calculator_hub/widgets/custom_text.dart';
+import 'package:online_calculator_hub/widgets/custom_app_bar.dart';
+import 'package:online_calculator_hub/widgets/custom_drop_down.dart';
 import 'package:online_calculator_hub/widgets/custom_button.dart';
 
 class CaloriesCalculatorView extends StatelessWidget {
@@ -43,9 +43,9 @@ class CaloriesCalculatorView extends StatelessWidget {
               CustomInputField(label: "Height (cm)", hintText: '170'),
               CustomDropdown(
                 label: 'Activity Level',
-                value: 'Sedentery(litte or no exercise)',
+                value: 'Sedentary(little or no exercise)',
                 items: [
-                  'Sedentery(litte or no exercise)',
+                  'Sedentary(little or no exercise)',
                   'Lightly active (1-3 days/week)',
                   'Moderately active (3-5 days/week)',
                   'Very active (6-7 days/week)',

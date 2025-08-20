@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Text_widget.dart';
+import 'custom_text.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color bgColor;
@@ -10,14 +10,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
 
   const CustomAppBar({
-    Key? key,
+    super.key,
     required this.bgColor,
     required this.iconColor,
     required this.title,
     this.titleColor = Colors.white,
     this.centerTitle = false,
     this.actions,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

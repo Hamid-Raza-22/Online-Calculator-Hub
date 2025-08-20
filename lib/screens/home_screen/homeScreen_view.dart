@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:online_calculator_hub/utils/Constants/colors.dart';
-import 'package:online_calculator_hub/widgets/Text_widget.dart';
-import 'package:online_calculator_hub/widgets/custom_grid_view.dart';
+import 'package:online_calculator_hub/widgets/custom_text.dart';
+import 'package:online_calculator_hub/widgets/custom_grid_container.dart';
 
-import '../../widgets/customSearchFeild.dart';
+import '../../widgets/custom_search_field.dart';
 
 class HomescreenView extends StatelessWidget {
   const HomescreenView({super.key});

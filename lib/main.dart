@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:online_calculator_hub/screens/HomeScreen/homeScreen_view.dart';
+import 'package:online_calculator_hub/screens/home_screen/homeScreen_view.dart';
+
 
 void main() {
   runApp(const MyApp());

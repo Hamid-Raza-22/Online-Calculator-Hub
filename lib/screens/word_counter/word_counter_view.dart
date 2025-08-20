@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:online_calculator_hub/utils/Constants/colors.dart';
-import 'package:online_calculator_hub/widgets/CustomMultiLineInput.dart';
-import 'package:online_calculator_hub/widgets/customAppBar.dart';
-import 'package:online_calculator_hub/widgets/customCountsContainer.dart';
+import 'package:online_calculator_hub/widgets/custom_multi_line_input.dart';
+import 'package:online_calculator_hub/widgets/custom_app_bar.dart';
+import 'package:online_calculator_hub/widgets/custom_counts_container.dart';
 
 class WordCounterView extends StatelessWidget {
   final String title;

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:online_calculator_hub/utils/Constants/colors.dart';
-import 'package:online_calculator_hub/widgets/CustomInputFeild.dart';
-import 'package:online_calculator_hub/widgets/customAppBar.dart';
-import 'package:online_calculator_hub/widgets/customDropdown.dart';
+import 'package:online_calculator_hub/widgets/custom_input_field.dart';
+import 'package:online_calculator_hub/widgets/custom_app_bar.dart';
+import 'package:online_calculator_hub/widgets/custom_drop_down.dart';
 import 'package:online_calculator_hub/widgets/custom_button.dart';
 
-import '../../widgets/Text_widget.dart';
+import '../../widgets/custom_text.dart';
 
 class WaterIntakeView extends StatelessWidget {
   final String title;
