@@ -5,7 +5,7 @@ class Infodropdown extends StatefulWidget {
   final String title;
   final String details;
 
-  const Infodropdown({Key? key, required this.title, required this.details}) : super(key: key);
+  const Infodropdown({super.key, required this.title, required this.details});
 
   @override
   _ExpandableInfoState createState() => _ExpandableInfoState();

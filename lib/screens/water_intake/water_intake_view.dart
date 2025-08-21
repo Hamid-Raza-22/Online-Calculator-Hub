@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:online_calculator_hub/screens/water_intake/water_intake_controller.dart';
 import 'package:online_calculator_hub/utils/Constants/colors.dart';
 import 'package:online_calculator_hub/widgets/custom_input_field.dart';
 import 'package:online_calculator_hub/widgets/custom_app_bar.dart';
@@ -14,6 +17,7 @@ class WaterIntakeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final WaterIntakeController wController=Get.put(WaterIntakeController());
     return Scaffold(
       appBar: CustomAppBar(
         bgColor: AppColors.PrimaryColor,
@@ -40,22 +44,45 @@ class WaterIntakeView extends StatelessWidget {
                 label: 'Weight',
                 hintText: '70',
                 keyboardType: TextInputType.numberWithOptions(),
+                controller: wController.weightController,
               ),
               CustomInputField(
                 label: "Exercise Duration (minutes/day)",
                 hintText: "30",
                 keyboardType: TextInputType.numberWithOptions(),
+                controller: wController.exerciseMinutesController,
               ),
               CustomDropdown(
                 label: "Climate",
                 value: "Normal/Moderate",
                 items: ["Normal/Moderate", "Hot/Humid", "Cold/Dry"],
-                onChanged: (value) => () {},
+                onChanged: (value) => () {
+                  wController.setSelectedclimate(value);
+                },
               ),
               SizedBox(height: 5),
               CustomTextButton(
                 text: "Calculate Water Intake",
-                onPressed: () {},
+                onPressed: () {
+                  wController.calculateWaterIntake();
+                  Get.defaultDialog(
+                    title: "Your Water Intake",
+                    titleStyle: TextStyle(fontWeight: FontWeight.bold,color: AppColors.PrimaryColor),
+
+                    middleText:wController.result(),
+
+                    confirm: SizedBox(
+                      width: 70,
+                      child: CustomTextButton(
+                        text: "Ok",
+                        onPressed: () => { wController.reset(),Get.back()},
+                        buttonColor: AppColors.PrimaryColor,
+                        size: 80,
+                        textColor: Colors.white,
+                      ),
+                    ),
+                  );
+                },
                 buttonColor: AppColors.PrimaryColor,
                 textColor: Colors.white,
               ),

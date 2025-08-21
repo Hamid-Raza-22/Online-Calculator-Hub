@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:online_calculator_hub/screens/calories_calculator/calories_calculator_controller.dart';
 import 'package:online_calculator_hub/utils/Constants/colors.dart';
 import 'package:online_calculator_hub/widgets/custom_input_field.dart';
 import 'package:online_calculator_hub/widgets/custom_info_drop_down.dart';
@@ -8,9 +10,10 @@ import 'package:online_calculator_hub/widgets/custom_drop_down.dart';
 import 'package:online_calculator_hub/widgets/custom_button.dart';
 
 class CaloriesCalculatorView extends StatelessWidget {
+  final CaloriesController calorieController = Get.put(CaloriesController());
   final String title;
 
-  const CaloriesCalculatorView({super.key, required this.title});
+  CaloriesCalculatorView({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +39,31 @@ class CaloriesCalculatorView extends StatelessWidget {
                 label: "Gender",
                 value: 'Male',
                 items: ['Male', 'Female', 'other'],
-                onChanged: (value) => () {},
+                onChanged: (value) => () {
+                  if(value!=null){
+                    calorieController.setSelectedGender(value);
+                  }
+
+                },
               ),
-              CustomInputField(label: "Age", hintText: "30"),
-              CustomInputField(label: "Weight (kg)", hintText: '70'),
-              CustomInputField(label: "Height (cm)", hintText: '170'),
+              CustomInputField(
+                label: "Age",
+                hintText: "30",
+                keyboardType: TextInputType.numberWithOptions(),
+                controller: calorieController.ageController,
+              ),
+              CustomInputField(
+                label: "Weight (kg)",
+                hintText: '70',
+                keyboardType: TextInputType.numberWithOptions(),
+                controller: calorieController.weightController,
+              ),
+              CustomInputField(
+                label: "Height (cm)",
+                hintText: '170',
+                keyboardType: TextInputType.numberWithOptions(),
+                controller: calorieController.heightController,
+              ),
               CustomDropdown(
                 label: 'Activity Level',
                 value: 'Sedentary(little or no exercise)',
@@ -51,11 +74,47 @@ class CaloriesCalculatorView extends StatelessWidget {
                   'Very active (6-7 days/week)',
                   'Extra active (Physical job)',
                 ],
-                onChanged: (value) => () {},
+                onChanged: (value) {
+                  calorieController.setSelectedActivity(value);
+                },
               ),
-              SizedBox(height: 5,),
-              CustomTextButton(text: "Calculate Calories", onPressed: (){}, buttonColor: AppColors.PrimaryColor,textColor: Colors.white,),
-              Infodropdown(title: "How it's calculated?", details:'Using the Mifflin-St Jeor Formula:\nMen: BMR = 10W + 6.25H - 5A + 5\nWomen: BMR = 10W + 6.25H - 5A - 161TDEE = BMR × Activity Factor')
+              SizedBox(height: 5),
+              CustomTextButton(
+                text: "Calculate Calories",
+                onPressed: () {
+                  calorieController.calculateCalories();
+                  Get.defaultDialog(
+                    title: "Your Calories Burn",
+                    titleStyle: TextStyle(fontWeight: FontWeight.bold,color: AppColors.PrimaryColor),
+
+                    middleText:
+                    "Calories: ${calorieController.calories.value} kcal\n\n"
+                        "Gender: ${calorieController.selectedGender.value}\n"
+                        "Age: ${calorieController.ageController.text} yrs\n"
+                        "Weight: ${calorieController.weightController.text} kg\n"
+                        "Height: ${calorieController.heightController.text} cm\n"
+                        "Activity: ${calorieController.selectedActivity.value}",
+
+                    confirm: SizedBox(
+                      width: 70,
+                      child: CustomTextButton(
+                        text: "Ok",
+                        onPressed: () => { calorieController.reset(),Get.back()},
+                        buttonColor: AppColors.PrimaryColor,
+                        size: 80,
+                        textColor: Colors.white,
+                      ),
+                    ),
+                  );
+                },
+                buttonColor: AppColors.PrimaryColor,
+                textColor: Colors.white,
+              ),
+              Infodropdown(
+                title: "How it's calculated?",
+                details:
+                    'Using the Mifflin-St Jeor Formula:\nMen: BMR = 10W + 6.25H - 5A + 5\nWomen: BMR = 10W + 6.25H - 5A - 161TDEE = BMR × Activity Factor',
+              ),
             ],
           ),
         ),

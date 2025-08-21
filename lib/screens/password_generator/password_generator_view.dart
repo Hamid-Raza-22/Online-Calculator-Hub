@@ -25,10 +25,10 @@ class PasswordGeneratorView extends StatelessWidget {
              Column(
                children: [
                  Customslider(),
-                 CheckBoxWidget(title: 'Include Uppercase Letters (A-Z)'),
-                 CheckBoxWidget(title: 'Include Lowercase Letters (a-z)'),
-                 CheckBoxWidget(title: 'Include Numbers (0-9)'),
-                 CheckBoxWidget(title: 'Include Symbols (!@#\$%^&*)'),
+                 CheckBoxWidget(title: 'Include Uppercase Letters (A-Z)',value: true,),
+                 CheckBoxWidget(title: 'Include Lowercase Letters (a-z)',value: true,),
+                 CheckBoxWidget(title: 'Include Numbers (0-9)',value: true,),
+                 CheckBoxWidget(title: 'Include Symbols (!@#\$%^&*)',value: true,),
                ],
              ),
               SizedBox(height: 10,),
