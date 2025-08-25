@@ -29,6 +29,7 @@ class CustomMultiLineField extends StatelessWidget {
         const SizedBox(height: 6),
         TextFormField(
           enabled: enabled,
+          cursorColor: Colors.black,
           maxLines: 6,
           minLines: 4,
           controller: controller,

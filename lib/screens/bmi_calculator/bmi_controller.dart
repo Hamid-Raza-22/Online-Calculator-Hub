@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class BmiController extends GetxController {
@@ -23,9 +24,15 @@ class BmiController extends GetxController {
     if (result.value < 18.5) return "Underweight";
     if (result.value < 24.9) return "Normal weight";
     if (result.value < 29.9) return "Overweight";
-    return "absence";
+    return "obence";
   }
-
+  void copyToClipboard() {
+    if (result.value.toString().isNotEmpty) {
+      Clipboard.setData(ClipboardData(text: result.value.toString()));
+      Get.snackbar("Copied", "Password copied to clipboard",
+          snackPosition: SnackPosition.BOTTOM);
+    }
+  }
   void reset() {
     heightController.clear();
     weightController.clear();

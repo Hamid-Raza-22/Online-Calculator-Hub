@@ -25,6 +25,7 @@ class CustomSearchField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: TextFormField(
         onChanged: onChanged,
+        cursorColor: Colors.black,
         decoration: InputDecoration(
           prefixIcon: Icon(icon, color: Color(0xFFBDBDBD)),
           hintText: hintText,

@@ -95,18 +95,21 @@ class CaloriesCalculatorView extends StatelessWidget {
                         middleText:calorieController.calories.value,
 
                         confirm: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CustomTextButton(
                               text: "Copy to Clipboard",
                               onPressed: () => { calorieController.copyResult()},
                               buttonColor: AppColors.PrimaryColor,
+                              size:150 ,
 
                               textColor: Colors.white,
                             ),
                             CustomTextButton(text: "Ok", onPressed: (){
                               Get.back();
+
                               calorieController.reset();
-                            }, buttonColor: Colors.grey)
+                            },size: 100, buttonColor: Colors.grey,textColor: Colors.white,)
                           ],
                         ),
                       );

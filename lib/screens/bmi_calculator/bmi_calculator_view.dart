@@ -64,30 +64,48 @@ class BmiCalculatorView extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: AppColors.PrimaryColor,
                         ),
+                        content: SizedBox( 
+                        width: Get.width * 0.9,
+                        child: Center(
+                          child: Text( "BMI:   ${controller.result.value.toStringAsFixed(2)}\n"
+                              "Category:  ${controller.getBmiCategory()}\n",),
+                        )
+                      ),
 
-                        middleText:
-                            "BMI:  ${controller.result.value.toStringAsFixed(2)}\n"
-                            "Category: ${controller.getBmiCategory()}\n\n"
-                            "Height: ${controller.heightController.value.text.toString()} cm\n"
-                            "Weight: ${controller.weightController.value.text.toString()} kg",
-                        confirm: SizedBox(
-                          width: 70,
-                          child: CustomTextButton(
-                            text: "Ok",
-                            onPressed: ()  {
-                              if (_formKey.currentState!.validate()){
-                                controller.reset();
-                                Get.back();
-                              }
-                             },
-                            buttonColor: AppColors.PrimaryColor,
-                            size: 80,
-                            textColor: Colors.white,
-                          ),
+                        
+                           
+                        confirm: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 150,
+                              child: CustomTextButton(
+                                text: "Copy to Clipboard",
+                                onPressed: controller.copyToClipboard,
+                                buttonColor: AppColors.PrimaryColor,
+                                textColor: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 100,
+                              child: CustomTextButton(
+                                text: "Reset",
+                                onPressed: () {
+                                  controller.reset();
+                                  Get.back();
+                                },
+                                buttonColor: Colors.grey,
+                                size: 80,
+                                textColor: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
-                      );}
+                      );
+    }
                     },
                     buttonColor: AppColors.PrimaryColor,
+
                   ),
                   CustomTextButton(
                     text: "Reset",

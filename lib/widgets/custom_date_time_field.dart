@@ -58,6 +58,7 @@ class _CustomDatePickerFieldState extends State<CustomDateField> {
         SizedBox(height: 5),
         TextFormField(
           controller: _controller,
+          cursorColor: Colors.black,
           validator: _validator,
           decoration: InputDecoration(
             hintText: 'yyyy-MM-dd',

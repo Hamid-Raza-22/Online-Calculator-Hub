@@ -65,9 +65,9 @@ class CaloriesController extends GetxController {
       double gainWeight = tdee + 500;
 
       calories.value =
-      "${tdee.toStringAsFixed(0)} cal/day\n"
-          "Lose Weight: ${loseWeight.toStringAsFixed(0)} cal/day\n"
-          "Gain Weight: ${gainWeight.toStringAsFixed(0)} cal/day\n"
+      "${tdee.toStringAsFixed(0)} cal/day\n\n"
+          "Lose Weight: ${loseWeight.toStringAsFixed(0)} cal/day\n\n"
+          "Gain Weight: ${gainWeight.toStringAsFixed(0)} cal/day\n\n"
           "BMR(Basal Metabolic Rate): ${bmr.toStringAsFixed(0)} cal/day";
     } else {
       calories.value = errorMsg;
