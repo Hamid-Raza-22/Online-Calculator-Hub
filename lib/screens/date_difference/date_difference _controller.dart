@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 class DateController extends GetxController {
   var startDate = Rxn<DateTime>();
+  var showResult = false.obs;
   var endDate = Rxn<DateTime>();
   var includeEndDate = false.obs;
   var diffyears = 0.obs;

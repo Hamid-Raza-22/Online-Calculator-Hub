@@ -11,7 +11,9 @@ import 'package:online_calculator_hub/widgets/custom_button.dart';
 class WeightConvertorView extends StatelessWidget {
   final WeightController weightController = Get.put(WeightController());
   final String title;
- WeightConvertorView({super.key, required this.title});
+  final _formKey = GlobalKey<FormState>();
+
+  WeightConvertorView({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -23,68 +25,107 @@ class WeightConvertorView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          spacing: 10,
-          children: [
-            CustomInputField(label: "Value", hintText: '1',controller: weightController.inputValue,),
-            CustomDropdown(
-              label: "From",
-              value: 'Kilogram(kg)',
-              items: [
-                'Kilogram(kg)',
-                'Gram(g)',
-                'Milligram(mg)',
-                'Pound(Ib)',
-                'Metric Ton',
-                'Stone',
-                'Ounce(oz)'
-              ],
-              onChanged: (value) {
-                weightController.setSelectedFrom(value);
-              },
-            ),
-            CustomDropdown(
-              label: "To",
-              value: 'Pound(Ib)',
-              items: [
-                'Kilogram(kg)',
-                'Gram(g)',
-                'Milligram(mg)',
-                'Pound(Ib)',
-                'Metric Ton',
-                'Stone',
-                'Ounce(oz)'
-              ],
-              onChanged: (value) {
-                weightController.setSelectedTo(value);
-                Get.defaultDialog(
-                  title: "Your Converted Values",
-                  titleStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.PrimaryColor,
-                  ),
-
-                  middleText:
-                  "From: ${weightController.inputValue.text.toString()} ${weightController.fromUnit} \n"
-                      "To: ${weightController.toUnit}\n"
-                      "converted value: ${weightController.result} \n",
-                  confirm: SizedBox(
-                    width: 70,
-                    child: CustomTextButton(
-                      text: "Ok",
-                      onPressed: () => {weightController.reset(), Get.back()},
-                      buttonColor: AppColors.PrimaryColor,
-                      size: 80,
-                      textColor: Colors.white,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            spacing: 10,
+            children: [
+              CustomInputField(
+                label: "Value",
+                hintText: '1',
+                controller: weightController.inputValue,
+              ),
+              CustomDropdown(
+                label: "From",
+                value: 'Kilogram(kg)',
+                items: [
+                  'Kilogram(kg)',
+                  'Gram(g)',
+                  'Milligram(mg)',
+                  'Pound(Ib)',
+                  'Metric Ton',
+                  'Stone',
+                  'Ounce(oz)',
+                ],
+                onChanged: (value) {
+                  weightController.setSelectedFrom(value);
+                },
+              ),
+              CustomDropdown(
+                label: "To",
+                value: 'Pound(Ib)',
+                items: [
+                  'Kilogram(kg)',
+                  'Gram(g)',
+                  'Milligram(mg)',
+                  'Pound(Ib)',
+                  'Metric Ton',
+                  'Stone',
+                  'Ounce(oz)',
+                ],
+                onChanged: (value) {
+                  if (_formKey.currentState!.validate()) {
+                    weightController.setSelectedTo(value);
+                    weightController.showResult.value = true;
+                  }
+                },
+              ),
+              CustomTextButton(
+                text: "Convert",
+                onPressed: () {
+                  weightController.convert();
+                },
+                buttonColor: AppColors.PrimaryColor,
+                textColor: Colors.white,
+              ),
+              Obx(() {
+                if (weightController.showResult.value) {
+                  return Container(
+                    width: 350,
+                    margin: const EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppColors.PrimaryColor),
                     ),
-                  ),
-                );
-              },
-            ),
-            CustomTextButton(text: "Convert", onPressed: (){
-              weightController.convert();
-            }, buttonColor: AppColors.PrimaryColor,textColor: Colors.white,)
-          ],
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Your Converted Values",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: AppColors.PrimaryColor,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "From: ${weightController.inputValue.text.toString()} ${weightController.fromUnit} ",
+                        ),
+                        Text("To: ${weightController.toUnit}"),
+                        Text("converted value: ${weightController.result}"),
+                        SizedBox(
+                          width: 70,
+                          child: CustomTextButton(
+                            text: "Ok",
+                            onPressed: () => {
+                              weightController.reset(),
+                              Get.back(),
+                            },
+                            buttonColor: AppColors.PrimaryColor,
+                            textColor: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return SizedBox.shrink();
+              }),
+            ],
+          ),
         ),
       ),
     );

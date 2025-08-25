@@ -8,6 +8,7 @@ import 'package:online_calculator_hub/widgets/custom_drop_down.dart';
 import 'package:online_calculator_hub/widgets/custom_button.dart';
 
 class LengthConvertorView extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
   final LengthConverterController lengthController = Get.put(
     LengthConverterController(),
   );
@@ -25,85 +26,115 @@ class LengthConvertorView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          spacing: 10,
-          children: [
-            CustomInputField(
-              label: "Value",
-              hintText: '1',
-              controller: lengthController.lengthValue,
-              keyboardType: TextInputType.numberWithOptions(),
-            ),
-            CustomDropdown(
-              label: "From",
-              value: 'Meter(m)',
-              items: [
-                'Meter(m)',
-                'Kilometer(km)',
-                'centimeter(cm)',
-                'Milieter(mm)',
-                'Mile',
-                'Yard',
-                'Foot',
-                'Inch',
-              ],
-              onChanged: (value) {
-                if (value != null) {
-                  lengthController.setSelectedFrom(value);
-                }
-              },
-            ),
-            CustomDropdown(
-              label: "To",
-              value: 'Foot',
-              items: [
-                'Meter(m)',
-                'Kilometer(km)',
-                'centimeter(cm)',
-                'Milieter(mm)',
-                'Mile',
-                'Yard',
-                'Foot',
-                'Inch',
-              ],
-              onChanged: (value) {
-                if(value != null){
-                  lengthController.setSelectedTo(value);
-                }
-
-              },
-            ),
-            CustomTextButton(
-              text: "Convert",
-              onPressed: () {
-                lengthController.convert();
-                Get.defaultDialog(
-                  title: "Your Converted Values",
-                  titleStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.PrimaryColor,
-                  ),
-
-                  middleText:
-                      "From: ${lengthController.lengthValue.text.toString()} ${lengthController.fromUnit} \n"
-                      "To: ${lengthController.toUnit}\n"
-                      "converted value: ${lengthController.result} \n",
-                  confirm: SizedBox(
-                    width: 70,
-                    child: CustomTextButton(
-                      text: "Ok",
-                      onPressed: () => {lengthController.reset(), Get.back()},
-                      buttonColor: AppColors.PrimaryColor,
-                      size: 80,
-                      textColor: Colors.white,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            spacing: 10,
+            children: [
+              CustomInputField(
+                label: "Value",
+                hintText: '1',
+                controller: lengthController.lengthValue,
+                keyboardType: TextInputType.numberWithOptions(),
+              ),
+              CustomDropdown(
+                label: "From",
+                value: 'Meter(m)',
+                items: [
+                  'Meter(m)',
+                  'Kilometer(km)',
+                  'centimeter(cm)',
+                  'Milieter(mm)',
+                  'Mile',
+                  'Yard',
+                  'Foot',
+                  'Inch',
+                ],
+                onChanged: (value) {
+                  if (value != null) {
+                    lengthController.setSelectedFrom(value);
+                  }
+                },
+              ),
+              CustomDropdown(
+                label: "To",
+                value: 'Foot',
+                items: [
+                  'Meter(m)',
+                  'Kilometer(km)',
+                  'centimeter(cm)',
+                  'Milieter(mm)',
+                  'Mile',
+                  'Yard',
+                  'Foot',
+                  'Inch',
+                ],
+                onChanged: (value) {
+                  if (value != null) {
+                    lengthController.setSelectedTo(value);
+                  }
+                },
+              ),
+              CustomTextButton(
+                text: "Convert",
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    lengthController.convert();
+                    lengthController.showResult.value = true;
+                  }
+                },
+                buttonColor: AppColors.PrimaryColor,
+                textColor: Colors.white,
+              ),
+              Obx(() {
+                if (lengthController.showResult.value) {
+                  return Container(
+                    width: 350,
+                    margin: const EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppColors.PrimaryColor),
                     ),
-                  ),
-                );
-              },
-              buttonColor: AppColors.PrimaryColor,
-              textColor: Colors.white,
-            ),
-          ],
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Your Converted Values",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: AppColors.PrimaryColor,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "From: ${lengthController.lengthValue.text.toString()} ${lengthController.fromUnit}",
+                        ),
+                        Text("To: ${lengthController.toUnit}"),
+                        Text("converted value: ${lengthController.result} "),
+                        SizedBox(
+                          width: 70,
+                          child: CustomTextButton(
+                            text: "Ok",
+                            onPressed: () => {
+                              lengthController.reset(),
+                              Get.back(),
+                            },
+                            buttonColor: AppColors.PrimaryColor,
+
+                            textColor: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return SizedBox.shrink();
+              }),
+            ],
+          ),
         ),
       ),
     );

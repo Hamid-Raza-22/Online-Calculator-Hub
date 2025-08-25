@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 class AgeController extends GetxController {
   var dob = Rxn<DateTime>();
+  var showResult = false.obs;
   var calculateOn = Rxn<DateTime>();
 
   var years = 0.obs;

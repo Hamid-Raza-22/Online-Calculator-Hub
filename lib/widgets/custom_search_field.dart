@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 class CustomSearchField extends StatelessWidget {
   final IconData? icon;
   final String hintText;
- final String? labelText;
+  final String? labelText;
+  final Function(String)? onChanged;
 
-  const CustomSearchField(
-      {super.key,
-       this.icon,
-        required this.hintText,
-       this.labelText,
-      });
+  const CustomSearchField({
+    super.key,
+    this.icon,
+    required this.hintText,
+    this.labelText,
+    this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class CustomSearchField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: TextFormField(
-
+        onChanged: onChanged,
         decoration: InputDecoration(
           prefixIcon: Icon(icon, color: Color(0xFFBDBDBD)),
           hintText: hintText,

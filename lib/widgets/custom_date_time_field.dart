@@ -3,12 +3,12 @@ import 'package:intl/intl.dart';
 
 class CustomDateField extends StatefulWidget {
   final String label;
-  final ValueChanged<DateTime?>? onChanged; // callback when date is selected
+  final ValueChanged<DateTime?>? onChanged;
 
   const CustomDateField({
     Key? key,
     required this.label,
-   this.onChanged,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -32,8 +32,20 @@ class _CustomDatePickerFieldState extends State<CustomDateField> {
         selectedDate = picked;
         _controller.text = DateFormat("yyyy-MM-dd").format(picked);
       });
-      widget.onChanged!(picked); // send date to parent
+      widget.onChanged?.call(picked); // safe call
     }
+  }
+
+  String? _validator(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Please select a date";
+    }
+    try {
+      DateFormat("yyyy-MM-dd").parseStrict(value);
+    } catch (_) {
+      return "Invalid date format (use yyyy-MM-dd)";
+    }
+    return null;
   }
 
   @override
@@ -44,11 +56,11 @@ class _CustomDatePickerFieldState extends State<CustomDateField> {
         Text(widget.label,
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
         SizedBox(height: 5),
-        TextField(
+        TextFormField(
           controller: _controller,
-          readOnly: true, // prevent manual typing
+          validator: _validator,
           decoration: InputDecoration(
-            hintText: 'dd/mm/yyyy',
+            hintText: 'yyyy-MM-dd',
             hintStyle: TextStyle(color: Colors.grey),
             focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.black)),
@@ -58,6 +70,18 @@ class _CustomDatePickerFieldState extends State<CustomDateField> {
               onPressed: () => _selectDate(context),
             ),
           ),
+          onChanged: (value) {
+            try {
+              final parsedDate =
+              DateFormat("yyyy-MM-dd").parseStrict(value.trim());
+              setState(() {
+                selectedDate = parsedDate;
+              });
+              widget.onChanged?.call(parsedDate);
+            } catch (_) {
+              // if not valid, do nothing until user corrects it
+            }
+          },
         ),
       ],
     );

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 class LengthConverterController extends GetxController {
   final lengthValue=TextEditingController();
   var fromUnit = 'Meter(m)'.obs;
+  var showResult=false.obs;
   var toUnit = 'Foot'.obs;
   var result = ''.obs;
 

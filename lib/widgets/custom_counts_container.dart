@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 
 class Customcountscontainer extends StatelessWidget {
-  final int count;
+  final String count;
   final String text;
   final Color count_color;
 

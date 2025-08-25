@@ -6,7 +6,7 @@ class WaterIntakeController extends GetxController {
   final exerciseMinutesController = TextEditingController();
   var selectedClimate = "Normal/Moderate".obs;
   var result = "".obs;
-  void setSelectedclimate(String? newValue){
+  void setSelectedClimate(String? newValue){
     if(newValue !=null){
       selectedClimate.value=newValue;
     }
@@ -40,7 +40,7 @@ Climate bonus: ${climateBonus.toStringAsFixed(1)}L
   void reset(){
     weightController.clear();
     exerciseMinutesController.clear();
-     selectedClimate.value = "Normal/Moderate".obs as String;
-    result.value = "".obs as String;
+     selectedClimate.value = "Normal/Moderate";
+    result.value = "";
   }
 }

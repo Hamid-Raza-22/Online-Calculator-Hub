@@ -8,6 +8,7 @@ final inputController = TextEditingController();
 
   var fromUnit = "Celcius(C)".obs;
   var toUnit = "Fahrenheit(F)".obs;
+  var showResult=false.obs;
 
   var result = 0.0.obs;
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_calculator_hub/utils/Constants/colors.dart';
 
 class CheckBoxWidget extends StatelessWidget {
   final String title;
@@ -16,8 +17,11 @@ class CheckBoxWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 30,
+
       child: CheckboxListTile(
-        title: Text(title),
+        contentPadding: EdgeInsets.zero,
+        activeColor: AppColors.PrimaryColor,
+        title: Text(title, softWrap: true),
         value: value,
         onChanged: onChanged,
         controlAffinity: ListTileControlAffinity.leading,

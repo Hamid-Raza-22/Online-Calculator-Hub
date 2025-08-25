@@ -54,7 +54,7 @@ class CustomGridView extends StatelessWidget {
                   onTap: () {
                     Get.to(WaterIntakeView(title: 'Water Intake Calculator'));
                   },
-                  cIcon: Icons.health_and_safety,
+                  cIcon:Icons.local_drink,
                 ),
               ],
             ),
@@ -70,21 +70,21 @@ class CustomGridView extends StatelessWidget {
                   onTap: () {
                     Get.to(AgeCalculatorView(title: Toolstexts.age_Calculator));
                   },
-                  cIcon: Icons.health_and_safety,
+                  cIcon: Icons.calendar_month,
                 ),
                 BottomElevatedCard(
                   text:Toolstexts.date_difference,
                   onTap: () {
                     Get.to(DateDifferenceView(title: Toolstexts.date_difference));
                   },
-                  cIcon: Icons.health_and_safety,
+                  cIcon: Icons.date_range,
                 ),
                 BottomElevatedCard(
                   text: Toolstexts.countdown_calculator,
                   onTap: () {
                    Get.to(CountdownTimerView(title: Toolstexts.countdown_calculator));
                   },
-                  cIcon: Icons.health_and_safety,
+                  cIcon:Icons.timer,
                 ),
               ],
             ),
@@ -100,14 +100,14 @@ class CustomGridView extends StatelessWidget {
                   onTap: () {
                     Get.to(LengthConvertorView(title: Toolstexts.Lenght_converter));
                   },
-                  cIcon: Icons.health_and_safety,
+                  cIcon: Icons.straighten,
                 ),
                 BottomElevatedCard(
                   text:Toolstexts.Weight_converter,
                   onTap: () {
                    Get.to(WeightConvertorView(title: Toolstexts.Weight_converter));
                   },
-                  cIcon: Icons.health_and_safety,
+                  cIcon:Icons.monitor_weight,
                 ),
                 BottomElevatedCard(
 
@@ -115,7 +115,7 @@ class CustomGridView extends StatelessWidget {
                   onTap: () {
                     Get.to(TemperatureConvertorView(title: Toolstexts.Temperature_Converter,));
                   },
-                  cIcon: Icons.health_and_safety,
+                  cIcon: Icons.thermostat,
                 ),
               ],
             ),
@@ -131,21 +131,21 @@ class CustomGridView extends StatelessWidget {
                   onTap: () {
                    Get.to(WordCounterView(title: 'Word & Character Counter'));
                   },
-                  cIcon: Icons.health_and_safety,
+                  cIcon:  Icons.text_fields,
                 ),
                 BottomElevatedCard(
                   text: Toolstexts.Case_Converter,
                   onTap: () {
                    Get.to(CaseConvertorView(title:  Toolstexts.Case_Converter,));
                   },
-                  cIcon: Icons.health_and_safety,
+                  cIcon: Icons.swap_horiz,
                 ),
                 BottomElevatedCard(
                   text: Toolstexts.Password_Generator,
                   onTap: () {
                    Get.to(PasswordGeneratorView(title: Toolstexts.Password_Generator));
                   },
-                  cIcon: Icons.health_and_safety,
+                  cIcon: Icons.password,
                 ),
               ],
             ),

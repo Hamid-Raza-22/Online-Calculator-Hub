@@ -7,6 +7,7 @@ class WeightController extends GetxController {
 
 
   var fromUnit = 'Kilogram(kg)'.obs;
+  var showResult=false.obs;
   var toUnit = 'Pound(Ib)'.obs;
 
   void setSelectedFrom(String? value){

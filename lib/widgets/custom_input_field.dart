@@ -22,9 +22,15 @@ class CustomInputField extends StatelessWidget {
         Text(label,
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
         SizedBox(height: 5),
-        TextField(
+        TextFormField(
           controller: controller,
           cursorColor: Colors.black,
+          validator: (value) {
+            if (value == null || value.trim().isEmpty) {
+              return "Please fill this field";
+            }
+            return null;
+          },
           keyboardType: keyboardType,
           decoration: InputDecoration(
             hintText: hintText,
