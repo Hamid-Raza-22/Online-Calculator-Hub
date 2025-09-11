@@ -5,6 +5,7 @@ import 'package:online_calculator_hub/utils/Constants/colors.dart';
 import 'package:online_calculator_hub/widgets/custom_date_time_field.dart';
 import 'package:online_calculator_hub/widgets/custom_input_field.dart';
 import 'package:online_calculator_hub/widgets/custom_app_bar.dart';
+import 'package:online_calculator_hub/widgets/custom_result_container.dart';
 import 'package:online_calculator_hub/widgets/custom_time_selection_field.dart';
 import 'package:online_calculator_hub/widgets/custom_button.dart';
 
@@ -34,71 +35,63 @@ class CountdownTimerView extends StatelessWidget {
                 CustomInputField(
                   label: "Event Name",
                   hintText: "New Year 2026",
+
                   controller: controller.eventNameController,
                 ),
                 CustomDateField(
                   label: "Event Date",
-                  onChanged: (date) => controller.setDate(date),
-                ),
-                Customtimeselectionfield(
-                  label: "Event Time",
-                  onChanged: (time) => controller.setTime(time),
-                ),
-                CustomTextButton(
-                  text: "Start Countdown",
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      controller.startCountdown();
-                      controller.showResult.value = true;
-                    }
+                  controller: controller.startController,
+                  onChanged: (date) {
+                    controller.setDate(date);
+                    controller.showResult.value=false;
+                    controller.clicked.value=false;
+                    controller.eventPassed.value=false;
                   },
-                  buttonColor: AppColors.PrimaryColor,
-                  textColor: Colors.white,
+                ),
+                CustomTimeSelectionField(
+                  label: "Event Time",
+                  controller: controller.timeController,
+
+                  onChanged: (time) {
+                    controller.setTime(time);
+                    controller.showResult.value = false;
+                    controller.clicked.value = false;
+                    controller.eventPassed.value=false;
+                  },
+                ),
+                Obx(
+                  ()=> CustomTextButton(
+                    text: controller.clicked.value
+                        ? "Countdown Started":"Start Countdown",
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        controller.startCountdown();
+                        FocusScope.of(context).unfocus();
+                        controller.showResult.value = true;
+                        controller.clicked.value = true;
+                      }
+                    },
+                    buttonColor: controller.clicked.value
+                        ? Colors.green
+                        : AppColors.PrimaryColor,
+                    textColor: Colors.white,
+                  ),
                 ),
                 Obx(() {
                   if (controller.showResult.value) {
-                    return Container(
-                      width: 350,
-                      margin: const EdgeInsets.only(top: 20),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.PrimaryColor),
+                    return CustomResultContainer(
+                      title: controller.eventPassed.value
+                          ?
+                      "Event has Passed!": controller.eventNameController.text ,
+                      counterText: controller.formatDuration(
+                        controller.remainingTime.value,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Countdown Started",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: AppColors.PrimaryColor,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            controller.formatDuration(
-                              controller.remainingTime.value,
-                            ),
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
+                      resetText: controller.eventPassed.value ?"Reset" :"Stop Timer" ,
 
-                            child: CustomTextButton(
-                              text: "Stop Timer",
-                              onPressed: () => {controller.reset(), Get.back()},
-                              buttonColor: AppColors.PrimaryColor,
-
-                              textColor: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
+                      optionalSize: 290,
+                      reset: (){
+                          controller.reset();
+                      },
                     );
                   }
                   return SizedBox.shrink();

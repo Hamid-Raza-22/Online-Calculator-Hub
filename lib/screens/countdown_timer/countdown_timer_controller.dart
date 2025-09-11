@@ -1,23 +1,39 @@
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 
 class CountdownController extends GetxController {
 
   final TextEditingController eventNameController = TextEditingController();
   var showResult = false.obs;
-
+  var eventPassed = false.obs;
+  final startController = TextEditingController();
+  final timeController = TextEditingController();
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
   Rx<TimeOfDay?> selectedTime = Rx<TimeOfDay?>(null);
+
+
 
   Rx<Duration> remainingTime = Duration.zero.obs;
   DateTime? eventDateTime;
   RxBool isRunning = false.obs;
+  var clicked=false.obs;
 
   void setDate(DateTime? date) {
     selectedDate.value = date;
     _updateEventDateTime();
   }
-
+  @override
+  void onInit() {
+    super.onInit();
+    eventNameController.addListener(() {
+      clicked.value = false;
+      showResult.value=false;
+      eventPassed.value=false;
+    });
+  }
   void setTime(TimeOfDay? time) {
     selectedTime.value = time;
     _updateEventDateTime();
@@ -51,6 +67,11 @@ class CountdownController extends GetxController {
       } else {
         remainingTime.value = Duration.zero;
         isRunning.value = false;
+        eventPassed.value=true;
+        final player=AudioPlayer();
+        player.play(AssetSource('audio/beep.mp3'));
+        // reset();
+
         break;
       }
       await Future.delayed(Duration(seconds: 1));
@@ -64,7 +85,12 @@ class CountdownController extends GetxController {
     selectedDate.value = null;
     selectedTime.value = null;
     eventNameController.clear();
+    eventPassed.value = false;
     eventDateTime=null;
+    showResult.value=false;
+    timeController.clear();
+    clicked.value=false;
+    startController.clear();
   }
 
 

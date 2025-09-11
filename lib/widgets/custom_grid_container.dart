@@ -32,7 +32,8 @@ class CustomGridView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Row(
-              spacing: 8,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
               children: [
                 BottomElevatedCard(
                   text: Toolstexts.BMI,
@@ -63,7 +64,7 @@ class CustomGridView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Row(
-              spacing: 8,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 BottomElevatedCard(
                   text: Toolstexts.age_Calculator,
@@ -93,7 +94,7 @@ class CustomGridView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Row(
-              spacing: 8,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 BottomElevatedCard(
                   text: Toolstexts.Lenght_converter,
@@ -124,7 +125,7 @@ class CustomGridView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Row(
-              spacing: 8,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 BottomElevatedCard(
                   text: Toolstexts.word_counter,

@@ -7,6 +7,8 @@ import 'package:online_calculator_hub/widgets/custom_text.dart';
 import 'package:online_calculator_hub/widgets/custom_app_bar.dart';
 import 'package:online_calculator_hub/widgets/custom_button.dart';
 
+import '../../widgets/custom_result_container.dart';
+
 class AgeCalculatorView extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final String title;
@@ -38,68 +40,47 @@ class AgeCalculatorView extends StatelessWidget {
                   textcolor: Colors.grey,
                 ),
                 CustomDateField(
-                  label: "Date of Birth",
-                  onChanged: (date) {
-                    ageController.setDob(date!);
-                  },
-                ),
+                    label: "Date of Birth",
+                    controller: ageController.dobController,
+                    onChanged: (date) {
+                      ageController.setDob(date!);
+                      ageController.clicked.value=false;
+                      ageController.showResult.value=false;
+                    },
+                  ),
                 CustomDateField(
                   label: "Calculate Age On",
+                  controller: ageController.calculateOnController,
                   onChanged: (date) {
                     ageController.setCalculateOn(date!);
+                    ageController.clicked.value=false;
+                    ageController.showResult.value=false;
                   },
                 ),
-                CustomTextButton(
-                  text: "Calculate Age",
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      ageController.calculateAge();
-                      ageController.showResult.value = true;
-                    }
-                  },
-                  buttonColor: AppColors.PrimaryColor,
-                  textColor: Colors.white,
+                Obx(
+                  ()=>CustomTextButton(
+                    text: ageController.clicked.value ? "Calculated":"Calculate Age",
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        ageController.calculateAge();
+                        FocusScope.of(context).unfocus();
+                        ageController.showResult.value = true;
+                        ageController.clicked.value=true;
+                      }
+                    },
+                    buttonColor: ageController.clicked.value ? Colors.green:AppColors.PrimaryColor,
+                    textColor: Colors.white,
+                  ),
                 ),
-                CustomTextButton(
-                  text: "Reset",
-                  onPressed: () {
-                    ageController.reset();
-                    ageController.showResult.value = false; // hide container
-                  },
-                  buttonColor: Colors.grey,
-                  textColor: Colors.white,
-                ),
-
 
                 Obx(() {
                   if (ageController.showResult.value) {
-                    return Container(
-                      width: 350,
-                      margin: const EdgeInsets.only(top: 20),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.PrimaryColor),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Your Age:",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: AppColors.PrimaryColor,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text("Years: ${ageController.years}"),
-                          Text("Months: ${ageController.months}"),
-                          Text("Days: ${ageController.days}"),
-                        ],
-                      ),
-                    );
+                    return CustomResultContainer(title:"Your Age:" , text1:"Years: ${ageController.years}", text2: "Months: ${ageController.months}",text3: "Days: ${ageController.days}", clipboardText:"Copy to clipboard" , resetText:"Reset", clipBoardFunction: (){
+                      ageController.copyResult();
+                    }, reset:(){
+                      ageController.reset();
+                      ageController.showResult.value=false;
+                    });
                   }
                   return SizedBox.shrink();
                 }),

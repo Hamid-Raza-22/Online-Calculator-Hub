@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:online_calculator_hub/screens/password_generator/password_generate_controller.dart';
 import 'package:online_calculator_hub/utils/Constants/colors.dart';
+import 'package:online_calculator_hub/widgets/custom_result_container.dart';
 import 'package:online_calculator_hub/widgets/custom_text.dart';
 import 'package:online_calculator_hub/widgets/custom_app_bar.dart';
 import 'package:online_calculator_hub/widgets/custom_check_box.dart';
@@ -33,28 +34,39 @@ class PasswordGeneratorView extends StatelessWidget {
               spacing: 10,
               children: [
                 Column(
-
                   children: [
                     Customslider(),
                     Obx(
                       () => CheckBoxWidget(
                         title: 'Include Uppercase Letters (A-Z)',
                         value: controller.includeUppercase.value,
-                        onChanged: (val) => controller.setIncludeUperCase(val!),
+                        onChanged: (val) {
+                          controller.setIncludeUperCase(val!);
+                          controller.showResult.value=false;
+                          controller.clicked.value=false;
+                        },
                       ),
                     ),
                     Obx(
                       () => CheckBoxWidget(
                         title: 'Include Lowercase Letters (a-z)',
                         value: controller.includeLowercase.value,
-                        onChanged: (val) => controller.setLowerCase(val!),
+                        onChanged: (val) {
+                          controller.setLowerCase(val!);
+                          controller.showResult.value = false;
+                          controller.clicked.value = false;
+                        },
                       ),
                     ),
                     Obx(
                       () => CheckBoxWidget(
                         title: 'Include Numbers (0-9)',
                         value: controller.includeNumbers.value,
-                        onChanged: (val) => controller.setIncludeNumbers(val!),
+                        onChanged: (val) {
+                          controller.setIncludeNumbers(val!);
+                          controller.showResult.value = false;
+                          controller.clicked.value = false;
+                        },
                       ),
                     ),
 
@@ -62,75 +74,48 @@ class PasswordGeneratorView extends StatelessWidget {
                       () => CheckBoxWidget(
                         title: 'Include Symbols (!@#\$%^&*)',
                         value: controller.includeSymbols.value,
-                        onChanged: (val) => controller.setIncludeSymbols(val!),
+                        onChanged: (val) {
+                          controller.setIncludeSymbols(val!);
+                          controller.showResult.value = false;
+                          controller.clicked.value = false;
+                        },
                       ),
                     ),
                   ],
                 ),
                 SizedBox(height: 10),
-                CustomTextButton(
-                  text: "Generate Password",
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      controller.generatePassword();
-                      controller.showResult.value = true;
-                    }
-                  },
+                Obx(
+                  () => CustomTextButton(
+                    text: controller.clicked.value
+                        ? "Generated"
+                        : "Generate Password",
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        controller.generatePassword();
+                        FocusScope.of(context).unfocus();
+                        controller.showResult.value = true;
+                        controller.clicked.value = true;
+                      }
+                    },
 
-                  buttonColor: AppColors.PrimaryColor,
-                  textColor: Colors.white,
+                    buttonColor: controller.clicked.value
+                        ? Colors.green
+                        : AppColors.PrimaryColor,
+                    textColor: Colors.white,
+                  ),
                 ),
                 Obx(() {
                   if (controller.showResult.value) {
-                    return Container(
-                      width: 350,
-                      margin: const EdgeInsets.only(top: 20),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.PrimaryColor),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Password:  ${controller.generatedPassword}",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: AppColors.PrimaryColor,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: 150,
-                                child: CustomTextButton(
-                                  text: "Copy to Clipboard",
-                                  onPressed: controller.copyToClipboard,
-                                  buttonColor: AppColors.PrimaryColor,
-                                  textColor: Colors.white,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 120,
-                                child: CustomTextButton(
-                                  text: "Reset",
-                                  onPressed: () {
-                                    controller.clearPassword();
-                                  },
-                                  buttonColor: Colors.grey,
-                                  size: 80,
-                                  textColor: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                    return CustomResultContainer(
+                      title: "Password:  ${controller.generatedPassword}",
+                      clipboardText: "Copy to Clipboard",
+                      clipBoardFunction: () {
+                        controller.copyToClipboard();
+                      },
+                      resetText: "Reset",
+                      reset: () {
+                        controller.clearPassword();
+                      },
                     );
                   }
                   return SizedBox.shrink();

@@ -1,23 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class CustomDateField extends StatefulWidget {
   final String label;
   final ValueChanged<DateTime?>? onChanged;
+  final TextEditingController? controller;
 
   const CustomDateField({
-    Key? key,
+    super.key,
     required this.label,
     this.onChanged,
-  }) : super(key: key);
+    this.controller,
+  });
 
   @override
-  _CustomDatePickerFieldState createState() => _CustomDatePickerFieldState();
+  _CustomDatePickerFieldState createState() {
+    return _CustomDatePickerFieldState();
+  }
 }
 
 class _CustomDatePickerFieldState extends State<CustomDateField> {
   DateTime? selectedDate;
-  final TextEditingController _controller = TextEditingController();
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = widget.controller ?? TextEditingController();
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
@@ -32,7 +43,7 @@ class _CustomDatePickerFieldState extends State<CustomDateField> {
         selectedDate = picked;
         _controller.text = DateFormat("yyyy-MM-dd").format(picked);
       });
-      widget.onChanged?.call(picked); // safe call
+      widget.onChanged?.call(picked);
     }
   }
 
@@ -40,10 +51,16 @@ class _CustomDatePickerFieldState extends State<CustomDateField> {
     if (value == null || value.isEmpty) {
       return "Please select a date";
     }
+
+    final regex = RegExp(r'^\d{4}-\d{2}-\d{2}$'); // yyyy-MM-dd strict
+    if (!regex.hasMatch(value)) {
+      return "Invalid format (use yyyy-MM-dd)";
+    }
+
     try {
       DateFormat("yyyy-MM-dd").parseStrict(value);
     } catch (_) {
-      return "Invalid date format (use yyyy-MM-dd)";
+      return "Invalid date";
     }
     return null;
   }
@@ -58,8 +75,32 @@ class _CustomDatePickerFieldState extends State<CustomDateField> {
         SizedBox(height: 5),
         TextFormField(
           controller: _controller,
+          keyboardType: TextInputType.number,
           cursorColor: Colors.black,
           validator: _validator,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            TextInputFormatter.withFunction((oldValue, newValue) {
+              String text = newValue.text;
+
+
+              if (text.length > 4 && text[4] != '-') {
+                text = '${text.substring(0, 4)}-${text.substring(4)}';
+              }
+              if (text.length > 7 && text[7] != '-') {
+                text = '${text.substring(0, 7)}-${text.substring(7)}';
+              }
+              if (text.length > 10) {
+                text = text.substring(0, 10);
+              }
+
+              return TextEditingValue(
+                text: text,
+                selection: TextSelection.collapsed(offset: text.length),
+              );
+            }),
+          ],
           decoration: InputDecoration(
             hintText: 'yyyy-MM-dd',
             hintStyle: TextStyle(color: Colors.grey),
@@ -80,7 +121,7 @@ class _CustomDatePickerFieldState extends State<CustomDateField> {
               });
               widget.onChanged?.call(parsedDate);
             } catch (_) {
-              // if not valid, do nothing until user corrects it
+              // validator will show error
             }
           },
         ),

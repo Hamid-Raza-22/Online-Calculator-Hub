@@ -6,6 +6,24 @@ class BmiController extends GetxController {
   final heightController = TextEditingController();
   final weightController = TextEditingController();
   var result = 0.0.obs;
+  var clicked=false.obs;
+  var bmiCategory=''.obs;
+  var showResult=false.obs;
+
+
+  @override
+  void onInit() {
+    super.onInit();
+    heightController.addListener(() {
+      clicked.value = false;
+      showResult.value=false;
+    });
+    weightController.addListener(() {
+      clicked.value = false;
+      showResult.value=false;
+    });
+  }
+
 
   void calculateBmi() {
     final height = double.tryParse(heightController.text) ?? 0.0;
@@ -20,16 +38,16 @@ class BmiController extends GetxController {
   }
 
   String getBmiCategory() {
-    if (result.value == 0.0) return "Invalid";
-    if (result.value < 18.5) return "Underweight";
-    if (result.value < 24.9) return "Normal weight";
-    if (result.value < 29.9) return "Overweight";
-    return "obence";
+    if (result.value == 0.0) return bmiCategory.value="Invalid";
+    if (result.value < 18.5) return bmiCategory.value="Underweight";
+    if (result.value < 24.9) return bmiCategory.value="Normal weight";
+    if (result.value < 29.9) return bmiCategory.value="Overweight";
+    return bmiCategory.value="obese";
   }
   void copyToClipboard() {
     if (result.value.toString().isNotEmpty) {
-      Clipboard.setData(ClipboardData(text: result.value.toString()));
-      Get.snackbar("Copied", "Password copied to clipboard",
+      Clipboard.setData(ClipboardData(text: "${result.value.toString()}${bmiCategory.value}"));
+      Get.snackbar("Copied", "BMI copied to clipboard",
           snackPosition: SnackPosition.BOTTOM);
     }
   }
@@ -37,6 +55,9 @@ class BmiController extends GetxController {
     heightController.clear();
     weightController.clear();
     result.value = 0.0;
+    clicked.value=false;
+    showResult.value=false;
+    bmiCategory.value='';
   }
 
   @override

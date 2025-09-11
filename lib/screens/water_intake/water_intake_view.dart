@@ -6,6 +6,7 @@ import 'package:online_calculator_hub/widgets/custom_input_field.dart';
 import 'package:online_calculator_hub/widgets/custom_app_bar.dart';
 import 'package:online_calculator_hub/widgets/custom_drop_down.dart';
 import 'package:online_calculator_hub/widgets/custom_button.dart';
+import 'package:online_calculator_hub/widgets/custom_result_container.dart';
 
 import '../../widgets/custom_text.dart';
 
@@ -45,57 +46,69 @@ class WaterIntakeView extends StatelessWidget {
                 CustomInputField(
                   label: 'Weight',
                   hintText: '70',
-                  keyboardType: TextInputType.numberWithOptions(),
+                  isNumeric: true,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   controller: wController.weightController,
                 ),
                 CustomInputField(
                   label: "Exercise Duration (minutes/day)",
                   hintText: "30",
-                  keyboardType: TextInputType.numberWithOptions(),
+                  isNumeric: true,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   controller: wController.exerciseMinutesController,
                 ),
                 CustomDropdown(
-                  label: "Climate",
-                  value: "Normal/Moderate",
-                  items: ["Normal/Moderate", "Hot/Humid", "Cold/Dry"],
-                  onChanged: (value) => () {
-                    wController.setSelectedClimate(value);
-                  },
-                ),
+                    label: "Climate",
+                    value: "Normal/Moderate",
+                    items: ["Normal/Moderate", "Hot/Humid", "Cold/Dry"],
+                    onChanged: (value) => () {
+                      wController.setSelectedClimate(value);
+                      wController.clicked.value=false;
+                      wController.showResult.value=false;
+                    },
+                  ),
+
                 SizedBox(height: 5),
-                CustomTextButton(
-                  text: "Calculate Water Intake",
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      wController.calculateWaterIntake();
-                      Get.defaultDialog(
-                        title: "Your Water Intake",
-                        titleStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.PrimaryColor,
-                        ),
-
-                        middleText: wController.result(),
-
-                        confirm: SizedBox(
-                          width: 100,
-                          child: CustomTextButton(
-                            text: "Ok",
-                            onPressed: () {
-                              wController.reset();
-                              Get.back();
-                            },
-                            buttonColor: AppColors.PrimaryColor,
-                            size: 80,
-                            textColor: Colors.white,
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                  buttonColor: AppColors.PrimaryColor,
-                  textColor: Colors.white,
+                Obx(
+                  ()=> CustomTextButton(
+                      text: wController.clicked.value ? "Calculated":"Calculate Water Intake",
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          wController.calculateWaterIntake();
+                          FocusScope.of(context).unfocus();
+                          wController.showResult.value = true;
+                          wController.clicked.value=true;
+                        }
+                      },
+                      buttonColor:wController.clicked.value ? Colors.green: AppColors.PrimaryColor,
+                      textColor: Colors.white,
+                    ),
                 ),
+
+
+                Obx(() {
+                  if (wController.showResult.value) {
+                    return CustomResultContainer(
+                      title: "Your Water Intake",
+                      text1: "${wController.result.value} Liters/day",
+                      text2:
+                          "Approximately:${(wController.total / 0.25).round()} glasses (250ml each)",
+                      text3: "Base intake: ${wController.baseIntake} L",
+                      text4: "Exercise bonus: ${wController.exerciseIntake} L",
+                      resetText: "Reset",
+                      clipboardText: "Copy to Clipboard",
+                      clipBoardFunction: (){
+                        wController.copyResult();
+
+                      },
+                      reset: () {
+                        wController.reset();
+                        wController.showResult.value = false;
+                      },
+                    );
+                  }
+                  return SizedBox.shrink();
+                }),
                 TextWidget(
                   text: "Staying Hydrated",
                   fontSize: 18,

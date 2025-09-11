@@ -55,7 +55,17 @@ class TextStatsController extends GetxController {
       readingTime.value = "${minutes.toStringAsFixed(1)} min";
     }
   }
+  void reset() {
+    inputController.clear();
+   wordCount.value = 0;
+    charCount.value = 0;
+   charCountNoSpaces.value = 0;
+    sentenceCount.value = 0;
+    paragraphCount.value = 0;
+    avgWordLength.value = 0.0;
+    readingTime.value = "0";
 
+  }
   @override
   void onInit() {
     super.onInit();

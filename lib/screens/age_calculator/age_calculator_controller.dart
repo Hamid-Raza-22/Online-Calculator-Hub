@@ -1,13 +1,17 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 
 class AgeController extends GetxController {
   var dob = Rxn<DateTime>();
   var showResult = false.obs;
   var calculateOn = Rxn<DateTime>();
-
+var clicked=false.obs;
   var years = 0.obs;
   var months = 0.obs;
   var days = 0.obs;
+  final dobController = TextEditingController();
+  final calculateOnController = TextEditingController();
 
   void setDob(DateTime date) {
     dob.value = date;
@@ -46,12 +50,27 @@ class AgeController extends GetxController {
     days.value = daysDiff;
   }
 
+  void copyResult() {
+    if (years.value.toString().isNotEmpty) {
+      Clipboard.setData(
+          ClipboardData(text: "${years.value} years, ${months.value}months, ${days.value}days"));
+      Get.snackbar(
+        "Copied",
+        "Age result copied to clipboard",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
 
-  void reset(){
-    years.value=0;
-    months.value=0;
-    days.value=0;
+  void reset() {
+    years.value = 0;
+    months.value = 0;
+    days.value = 0;
     dob.value = null;
-    calculateOn.value =null;
+    calculateOn.value = null;
+
+    clicked.value=false;
+    dobController.clear();
+    calculateOnController.clear();
   }
 }

@@ -5,9 +5,13 @@ import 'package:get/get.dart';
 class CaloriesController extends GetxController {
   var errorMsg = "Please Enter All fields";
   var selectedGender = 'Male'.obs;
+  var showResult=false.obs;
   var selectedActivity = 'Sedentary(little or no exercise)'.obs;
-
   var calories = ''.obs;
+  var loseCalories = ''.obs;
+  var gainCalories = ''.obs;
+  var bmr= ''.obs;
+  var clicked=false.obs;
 
   final ageController = TextEditingController();
   final weightController = TextEditingController();
@@ -18,7 +22,19 @@ class CaloriesController extends GetxController {
       selectedGender.value = newValue;
     }
   }
-
+  @override
+  void onInit() {
+    super.onInit();
+    heightController.addListener(() {
+      clicked.value = false;
+    });
+    weightController.addListener(() {
+      clicked.value = false;
+    });
+    ageController.addListener((){
+      clicked.value=false;
+    });
+  }
   void setSelectedActivity(String? newValue) {
     if (newValue != null) {
       selectedActivity.value = newValue;
@@ -64,18 +80,17 @@ class CaloriesController extends GetxController {
       double loseWeight = tdee - 500;
       double gainWeight = tdee + 500;
 
-      calories.value =
-      "${tdee.toStringAsFixed(0)} cal/day\n\n"
-          "Lose Weight: ${loseWeight.toStringAsFixed(0)} cal/day\n\n"
-          "Gain Weight: ${gainWeight.toStringAsFixed(0)} cal/day\n\n"
-          "BMR(Basal Metabolic Rate): ${bmr.toStringAsFixed(0)} cal/day";
+      calories.value =tdee.toStringAsFixed(0);
+      loseCalories.value=loseWeight.toStringAsFixed(0);
+      gainCalories.value=gainWeight.toStringAsFixed(0);
+      this.bmr.value=bmr.toStringAsFixed(0);
     } else {
       calories.value = errorMsg;
     }
   }
   void copyResult() {
     if (calories.value.isNotEmpty) {
-      Clipboard.setData(ClipboardData(text: calories.value));
+      Clipboard.setData(ClipboardData(text: "Daily calories${calories.value} "));
       Get.snackbar(
         "Copied",
         "Calories result copied to clipboard",
@@ -89,8 +104,13 @@ class CaloriesController extends GetxController {
     selectedGender.value = 'Male';
     selectedActivity.value = 'Sedentary(little or no exercise)';
     ageController.clear();
+    bmr.value='';
+    loseCalories.value='';
+    gainCalories.value='';
     weightController.clear();
     heightController.clear();
     calories.value = "";
+    showResult.value=false;
+    clicked.value=false;
   }
 }

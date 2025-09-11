@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
-
-class Customtimeselectionfield extends StatefulWidget {
+class CustomTimeSelectionField extends StatefulWidget {
   final String label;
   final ValueChanged<TimeOfDay?>? onChanged;
+  final TextEditingController controller;
 
-  const Customtimeselectionfield({
-    Key? key,
+  const CustomTimeSelectionField({
+    super.key,
     required this.label,
     this.onChanged,
-  }) : super(key: key);
+    required this.controller,
+  });
 
   @override
-  State<Customtimeselectionfield> createState() => _SimpleTimeFieldState();
+  State<CustomTimeSelectionField> createState() => _SimpleTimeFieldState();
 }
 
-class _SimpleTimeFieldState extends State<Customtimeselectionfield> {
+class _SimpleTimeFieldState extends State<CustomTimeSelectionField> {
   TimeOfDay? selectedTime;
-  final TextEditingController _controller = TextEditingController();
 
   Future<void> _pickTime() async {
     TimeOfDay? picked = await showTimePicker(
@@ -28,9 +28,9 @@ class _SimpleTimeFieldState extends State<Customtimeselectionfield> {
     if (picked != null) {
       setState(() {
         selectedTime = picked;
-        _controller.text = picked.format(context);
+        widget.controller.text = picked.format(context);
       });
-      widget.onChanged?.call(picked); // ✅ send time back
+      widget.onChanged?.call(picked);
     }
   }
 
@@ -43,12 +43,18 @@ class _SimpleTimeFieldState extends State<Customtimeselectionfield> {
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
         SizedBox(height: 5),
         TextField(
-          controller: _controller,
+          controller: widget.controller,
           readOnly: true,
           decoration: InputDecoration(
             hintText: '12:00 am',
             hintStyle: TextStyle(color: Colors.grey),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.black,
+                width: 2,
+              ),
+            ),
             suffixIcon: IconButton(
               icon: Icon(Icons.access_time),
               onPressed: _pickTime,
@@ -59,4 +65,3 @@ class _SimpleTimeFieldState extends State<Customtimeselectionfield> {
     );
   }
 }
-

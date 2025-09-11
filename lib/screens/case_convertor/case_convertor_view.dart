@@ -4,7 +4,6 @@ import 'package:online_calculator_hub/utils/Constants/colors.dart';
 import 'package:online_calculator_hub/widgets/custom_multi_line_input.dart';
 import 'package:online_calculator_hub/widgets/custom_app_bar.dart';
 import 'package:online_calculator_hub/widgets/custom_button.dart';
-
 import 'case_convertor_controller.dart';
 
 class CaseConvertorView extends StatelessWidget {
@@ -39,9 +38,8 @@ class CaseConvertorView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomTextButton(
-
                       text: "UPPERCASE",
-                      onPressed:() {
+                      onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           controller.toUppercase();
                         }
@@ -52,7 +50,7 @@ class CaseConvertorView extends StatelessWidget {
                     ),
                     CustomTextButton(
                       text: "lowercase",
-                      onPressed:() {
+                      onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           controller.toLowercase();
                         }
@@ -63,7 +61,7 @@ class CaseConvertorView extends StatelessWidget {
                     ),
                     CustomTextButton(
                       text: "Title Case",
-                      onPressed:  () {
+                      onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           controller.toTitleCase();
                         }
@@ -130,7 +128,7 @@ class CaseConvertorView extends StatelessWidget {
                       size: 155,
                     ),
                     CustomTextButton(
-                      text: "Clear All",
+                      text: "Reset",
                       onPressed: controller.clearAll,
                       buttonColor: Colors.grey,
                       textColor: Colors.white,
@@ -146,3 +144,6 @@ class CaseConvertorView extends StatelessWidget {
     );
   }
 }
+
+
+

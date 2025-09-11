@@ -5,6 +5,7 @@ import 'package:online_calculator_hub/widgets/custom_input_field.dart';
 import 'package:online_calculator_hub/widgets/custom_text.dart';
 import 'package:online_calculator_hub/widgets/custom_app_bar.dart';
 import 'package:online_calculator_hub/widgets/custom_button.dart';
+import '../../widgets/custom_result_container.dart';
 import 'bmi_controller.dart';
 
 class BmiCalculatorView extends StatelessWidget {
@@ -38,83 +39,62 @@ class BmiCalculatorView extends StatelessWidget {
                     fontSize: 16,
                     weight: FontWeight.normal,
                     align: TextAlign.start,
-
                   ),
                   CustomInputField(
                     label: "Height (cm)",
                     hintText: '170',
-                    keyboardType: TextInputType.number,
+                    isNumeric: true,
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
                     controller: controller.heightController,
                   ),
                   CustomInputField(
                     label: "Weight (kg)",
                     hintText: '65',
-                    keyboardType: TextInputType.number,
+                    isNumeric: true,
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
                     controller: controller.weightController,
                   ),
-                  CustomTextButton(
-                    text: "Calculate BMI",
-                    textColor: Colors.white,
-                    onPressed: () {
-    if (_formKey.currentState!.validate()){
-                      controller.calculateBmi();
-                      Get.defaultDialog(
-                        title: "Your BMI",
-                        titleStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.PrimaryColor,
-                        ),
-                        content: SizedBox( 
-                        width: Get.width * 0.9,
-                        child: Center(
-                          child: Text( "BMI:   ${controller.result.value.toStringAsFixed(2)}\n"
-                              "Category:  ${controller.getBmiCategory()}\n",),
-                        )
-                      ),
+                  Obx(
+                    () => CustomTextButton(
+                      text: controller.clicked.value
+                          ? "Calculated"
+                          : "Calculate BMI",
+                      textColor: Colors.white,
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          controller.calculateBmi();
+                          FocusScope.of(context).unfocus();
+                          controller.showResult.value = true;
+                          controller.clicked.value = true;
+                        }
+                      },
+                      buttonColor: controller.clicked.value
+                          ? Colors.green
+                          : AppColors.PrimaryColor,
+                    ),
+                  ),
 
-                        
-                           
-                        confirm: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: 150,
-                              child: CustomTextButton(
-                                text: "Copy to Clipboard",
-                                onPressed: controller.copyToClipboard,
-                                buttonColor: AppColors.PrimaryColor,
-                                textColor: Colors.white,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 100,
-                              child: CustomTextButton(
-                                text: "Reset",
-                                onPressed: () {
-                                  controller.reset();
-                                  Get.back();
-                                },
-                                buttonColor: Colors.grey,
-                                size: 80,
-                                textColor: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
+                  Obx(() {
+                    if (controller.showResult.value && controller.clicked.value ) {
+                      return CustomResultContainer(
+                        title: "Your BMI:",
+                        text1:
+                            "BMI:   ${controller.result.value.toStringAsFixed(2)}",
+                        text2: "Category:  ${controller.getBmiCategory()}",
+                        clipboardText: "Copy to clipboard",
+                        resetText: "Reset",
+                        clipBoardFunction: () {
+                          controller.copyToClipboard();
+                        },
+                        reset: () {
+                          controller.reset();
+                          controller.showResult.value = false;
+                          controller.clicked.value=false;
+                        },
                       );
-    }
-                    },
-                    buttonColor: AppColors.PrimaryColor,
-
-                  ),
-                  CustomTextButton(
-                    text: "Reset",
-                    onPressed: () {
-                      controller.reset();
-                    },
-                    buttonColor: Colors.grey,
-                    textColor: Colors.black,
-                  ),
+                    }
+                    return SizedBox.shrink();
+                  }),
                   SizedBox(height: 10),
                   TextWidget(
                     text: "Understanding BMI",

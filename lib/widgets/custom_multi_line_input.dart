@@ -35,7 +35,7 @@ class CustomMultiLineField extends StatelessWidget {
           controller: controller,
           keyboardType: TextInputType.multiline,
           validator: (value) {
-            if (value == null || value.trim().isEmpty) {
+            if (value == null || value.trim().isEmpty && enabled==true) {
               return "Please fill this field";
             }
             return null;

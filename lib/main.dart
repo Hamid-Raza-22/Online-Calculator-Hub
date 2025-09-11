@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:online_calculator_hub/screens/home_screen/homeScreen_view.dart';
+import 'package:online_calculator_hub/screens/home_screen/home_screen_view.dart';
 
 
 void main() {

@@ -6,6 +6,7 @@ import 'package:online_calculator_hub/widgets/custom_input_field.dart';
 import 'package:online_calculator_hub/widgets/custom_app_bar.dart';
 import 'package:online_calculator_hub/widgets/custom_drop_down.dart';
 import 'package:online_calculator_hub/widgets/custom_button.dart';
+import 'package:online_calculator_hub/widgets/custom_result_container.dart';
 
 class LengthConvertorView extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -28,112 +29,84 @@ class LengthConvertorView extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            spacing: 10,
-            children: [
-              CustomInputField(
-                label: "Value",
-                hintText: '1',
-                controller: lengthController.lengthValue,
-                keyboardType: TextInputType.numberWithOptions(),
-              ),
-              CustomDropdown(
-                label: "From",
-                value: 'Meter(m)',
-                items: [
-                  'Meter(m)',
-                  'Kilometer(km)',
-                  'centimeter(cm)',
-                  'Milieter(mm)',
-                  'Mile',
-                  'Yard',
-                  'Foot',
-                  'Inch',
-                ],
-                onChanged: (value) {
-                  if (value != null) {
-                    lengthController.setSelectedFrom(value);
-                  }
-                },
-              ),
-              CustomDropdown(
-                label: "To",
-                value: 'Foot',
-                items: [
-                  'Meter(m)',
-                  'Kilometer(km)',
-                  'centimeter(cm)',
-                  'Milieter(mm)',
-                  'Mile',
-                  'Yard',
-                  'Foot',
-                  'Inch',
-                ],
-                onChanged: (value) {
-                  if (value != null) {
-                    lengthController.setSelectedTo(value);
-                  }
-                },
-              ),
-              CustomTextButton(
-                text: "Convert",
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    lengthController.convert();
-                    lengthController.showResult.value = true;
-                  }
-                },
-                buttonColor: AppColors.PrimaryColor,
-                textColor: Colors.white,
-              ),
-              Obx(() {
-                if (lengthController.showResult.value) {
-                  return Container(
-                    width: 350,
-                    margin: const EdgeInsets.only(top: 20),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColors.PrimaryColor),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Your Converted Values",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: AppColors.PrimaryColor,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "From: ${lengthController.lengthValue.text.toString()} ${lengthController.fromUnit}",
-                        ),
-                        Text("To: ${lengthController.toUnit}"),
-                        Text("converted value: ${lengthController.result} "),
-                        SizedBox(
-                          width: 70,
-                          child: CustomTextButton(
-                            text: "Ok",
-                            onPressed: () => {
-                              lengthController.reset(),
-                              Get.back(),
-                            },
-                            buttonColor: AppColors.PrimaryColor,
+          child: SingleChildScrollView(
+            child: Column(
+              spacing: 10,
+              children: [
+                CustomInputField(
+                  label: "Value",
+                  hintText: '1',
+                  isNumeric: true,
+                  controller: lengthController.lengthValue,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                ),
+                Obx(
+                  ()=> CustomDropdown(
+                    label: "From",
+                    value: lengthController.fromLengthUnit.value,
+                    items: lengthController.fromLengthUnitList,
+                    onChanged: (value) {
+                      if (_formKey.currentState!.validate()) {
+                        lengthController.setSelectedFrom(value!);
+                        lengthController.showResult.value = false;
+                        lengthController.clicked.value = false;
+                      }
+                    },
+                  ),
+                ),
+                Obx(
+                  ()=> CustomDropdown(
+                    label: "To",
+                    value: lengthController.toLengthUnit.value,
+                    items:lengthController.toLengthUnitList,
+                    onChanged: (value) {
 
-                            textColor: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-                return SizedBox.shrink();
-              }),
-            ],
+                      if (_formKey.currentState!.validate()) {
+                        lengthController.setSelectedTo(value!);
+                        lengthController.showResult.value = false;
+                        lengthController.clicked.value = false;
+                      }
+                    },
+                  ),
+                ),
+                Obx(
+                  ()=> CustomTextButton(
+                    text: lengthController.clicked.value ? "Converted" : "Convert",
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        lengthController.convert();
+                        FocusScope.of(context).unfocus();
+                        lengthController.showResult.value = true;
+                        lengthController.clicked.value=true;
+                      }
+                    },
+                    buttonColor: lengthController.clicked.value
+                        ? Colors.green
+                        : AppColors.PrimaryColor,
+                    textColor: Colors.white,
+                  ),
+                ),
+                Obx(() {
+                  if (lengthController.showResult.value) {
+                    return CustomResultContainer(title: "Your Converted Values",
+                        text1: "From: ${lengthController.lengthValue.text
+                            .toString()} ${lengthController.fromLengthUnit}",
+                        text2:"To: ${lengthController.toLengthUnit}",
+                        text3: "converted value: ${lengthController.result} ${lengthController.toLengthUnit}",
+                        clipboardText: "Copy to Clipboard",
+                        clipBoardFunction: (){
+                      lengthController.copyResult();
+                        },
+                        resetText: "reset",
+                        reset: (){
+                      lengthController.reset();
+                      lengthController.showResult.value=false;
+                        });
+                  }
+                  return SizedBox.shrink();
+                }),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,13 +1,18 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class DateController extends GetxController {
   var startDate = Rxn<DateTime>();
   var showResult = false.obs;
+  var clicked=false.obs;
   var endDate = Rxn<DateTime>();
   var includeEndDate = false.obs;
   var diffyears = 0.obs;
   var diffMonths = 0.obs;
   var diffDays = 0.obs;
+  final startController = TextEditingController();
+  final calculateOnController = TextEditingController();
 
   void setStartDate(DateTime date) {
     startDate.value = date;
@@ -55,7 +60,16 @@ class DateController extends GetxController {
     return "$diffyears";
 
   }
-
+  void copyResult() {
+    if (diffyears.value.toString().isNotEmpty) {
+      Clipboard.setData(ClipboardData(text:"${diffyears.value}${diffMonths.value},${diffDays.value}"));
+      Get.snackbar(
+        "Copied",
+        "date difference result copied to clipboard",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
 
   void reset(){
     diffDays.value=0;
@@ -64,6 +78,9 @@ class DateController extends GetxController {
     includeEndDate.value = false;
     startDate.value = null;
     endDate.value =null;
+    startController.clear();
+    calculateOnController.clear();
+    clicked.value=false;
 
   }
 }

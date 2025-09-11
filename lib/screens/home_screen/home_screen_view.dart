@@ -11,7 +11,7 @@ class HomeScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final searchFeildController=Get.put(SearchFeildController());
+    final searchFieldController=Get.put(SearchFeildController());
 
     return Scaffold(
       appBar: AppBar(
@@ -25,8 +25,9 @@ class HomeScreenView extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 16.0, left: 20.0, right: 16),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             spacing: 10,
             children: [
               TextWidget(
@@ -40,18 +41,18 @@ class HomeScreenView extends StatelessWidget {
               CustomSearchField(
                 hintText: "Search Calculators...",
                 icon: Icons.search,
-                onChanged: (val) => searchFeildController.setQuery(val),
+                onChanged: (val) => searchFieldController.setQuery(val),
               ),
 
               Obx(() {
-                if (searchFeildController.filteredTools.isEmpty &&
-                    searchFeildController.query.value.isNotEmpty) {
+                if (searchFieldController.filteredTools.isEmpty &&
+                    searchFieldController.query.value.isNotEmpty) {
                   return const Text("No results found");
                 }
 
-                if (searchFeildController.filteredTools.isNotEmpty) {
+                if (searchFieldController.filteredTools.isNotEmpty) {
                   return Column(
-                    children: searchFeildController.filteredTools.map((tool) {
+                    children: searchFieldController.filteredTools.map((tool) {
                       return ListTile(
                         leading: Icon(tool.icon, color: AppColors.PrimaryColor),
                         title: Text(tool.title),

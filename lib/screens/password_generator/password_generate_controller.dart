@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 class PasswordController extends GetxController {
   RxInt passwordLength = 8.obs;
+  var clicked=false.obs;
 
   RxBool includeUppercase = true.obs;
   var showResult=false.obs;
@@ -67,5 +68,7 @@ class PasswordController extends GetxController {
 
   void clearPassword() {
     generatedPassword.value = "";
+    clicked.value=false;
+    showResult.value=false;
   }
 }

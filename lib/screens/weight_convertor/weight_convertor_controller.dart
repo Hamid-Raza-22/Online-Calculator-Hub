@@ -1,27 +1,45 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class WeightController extends GetxController {
 
   final inputValue=TextEditingController();
-
-
-  var fromUnit = 'Kilogram(kg)'.obs;
+  var fromWeightUnit = 'Kilogram(kg)'.obs;
   var showResult=false.obs;
-  var toUnit = 'Pound(Ib)'.obs;
-
-  void setSelectedFrom(String? value){
-    if(value !=null){
-      fromUnit.value=value;
-    }
-  }
-  void setSelectedTo(String? value){
-    if(value !=null){
-      fromUnit.value=value;
-    }
-  }
-
+  var toWeightUnit = 'Pound(Ib)'.obs;
+  var clicked=false.obs;
   var result = ''.obs;
+  final allUnits =[
+    'Kilogram(kg)',
+    'Gram(g)',
+    'Milligram(mg)',
+    'Pound(Ib)',
+    'Metric Ton',
+    'Stone',
+    'Ounce(oz)',
+  ];
+  List<String> get fromWeightUnitList => allUnits.where((u) => u != toWeightUnit.value).toList();
+  List<String> get toWeightUnitList => allUnits.where((u) => u != fromWeightUnit.value).toList();
+  void setSelectedWeightFrom(String value){
+
+      fromWeightUnit.value=value;
+  }
+  void setSelectedWeightTo(String value){
+
+      toWeightUnit.value=value;
+  }
+
+@override
+  void onInit() {
+
+    super.onInit();
+    inputValue.addListener((){
+      showResult.value=false;
+      clicked.value=false;
+    });
+
+  }
 
 
   final Map<String, double> unitToKg = {
@@ -35,20 +53,31 @@ class WeightController extends GetxController {
   };
 
   void convert() {
+
     var value=double.tryParse(inputValue.text)?? 0.0;
 
-    double inKg = value * (unitToKg[fromUnit.value] ?? 1.0);
+    double inKg = value * (unitToKg[fromWeightUnit.value] ?? 1.0);
 
     double converted =
-        inKg / (unitToKg[toUnit.value] ?? 1.0);
+        inKg / (unitToKg[toWeightUnit.value] ?? 1.0);
 
-    result.value = "$value ${fromUnit.value} = ${converted.toStringAsFixed(4)} ${toUnit.value}";
+    result.value = converted.toStringAsFixed(4);
   }
-
+  void copyResult() {
+    if (fromWeightUnit.value.isNotEmpty) {
+      Clipboard.setData(ClipboardData(text:result.value));
+      Get.snackbar(
+        "Copied",
+        "weight result copied to clipboard",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
   void reset() {
     inputValue.clear();
-    fromUnit.value = 'Meter(m)';
-    toUnit.value = 'Foot';
+    fromWeightUnit.value ='Kilogram(kg)';
+    toWeightUnit.value = 'Pound(Ib)';
     result.value = '';
+    clicked.value=false;
   }
 }

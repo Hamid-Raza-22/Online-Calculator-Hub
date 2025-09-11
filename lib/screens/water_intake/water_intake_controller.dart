@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class WaterIntakeController extends GetxController {
@@ -6,6 +7,26 @@ class WaterIntakeController extends GetxController {
   final exerciseMinutesController = TextEditingController();
   var selectedClimate = "Normal/Moderate".obs;
   var result = "".obs;
+  var clicked=false.obs;
+  var baseIntake="".obs;
+  var climateBonus="".obs;
+  var exerciseIntake="".obs;
+  var total=0.0.obs;
+  var showResult=false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    exerciseMinutesController.addListener(() {
+      clicked.value = false;
+      showResult.value=false;
+    });
+    weightController.addListener(() {
+      clicked.value = false;
+      showResult.value=false;
+    });
+  }
+
   void setSelectedClimate(String? newValue){
     if(newValue !=null){
       selectedClimate.value=newValue;
@@ -13,28 +34,37 @@ class WaterIntakeController extends GetxController {
 
   }
   void calculateWaterIntake() {
-    final weight=double.tryParse(weightController.text) ?? 0.0;
-    final exerciseMinutes=double.tryParse(exerciseMinutesController.text)?? 0.0;
+    final weight = double.tryParse(weightController.text) ?? 0.0;
+    final exerciseMinutes = double.tryParse(exerciseMinutesController.text) ?? 0.0;
 
-    double base = weight * 0.03;
-    double exerciseBonus = (exerciseMinutes / 30) * 0.35;
+
+    double base = weight * 0.035;
+
+
+    double exerciseBonus = (exerciseMinutes / 30) * 0.7;
+
+
     double climateBonus = 0.0;
+    if (selectedClimate.value == "Hot/Humid") climateBonus = 0.7;
+    if (selectedClimate.value == "Cold/Dry") climateBonus = 0.3;
 
-    if (selectedClimate.value == "Hot/Humid") climateBonus = 0.5;
-    if (selectedClimate.value == "Cold/Dry") climateBonus = 0.2;
+    total.value = base + exerciseBonus + climateBonus;
 
-    double total = base + exerciseBonus + climateBonus;
-
-    result.value = """${total.toStringAsFixed(1)} Liters/day
-Approximately:
-${(total / 0.25).round()} glasses (250ml each)
-
-Base intake: ${base.toStringAsFixed(1)}L
-Exercise bonus: ${exerciseBonus.toStringAsFixed(1)}L
-Climate bonus: ${climateBonus.toStringAsFixed(1)}L
-""";
+    baseIntake.value = base.toStringAsFixed(1);
+    exerciseIntake.value = exerciseBonus.toStringAsFixed(1);
+    result.value = total.value.toStringAsFixed(1);
   }
 
+  void copyResult() {
+    if (result.value.isNotEmpty) {
+      Clipboard.setData(ClipboardData(text:"${result.value} Litters/day\nApproximately:${(total / 0.25).round()} glasses (250ml each)"));
+      Get.snackbar(
+        "Copied",
+        "water intake result copied to clipboard",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
 
 
   void reset(){
@@ -42,5 +72,7 @@ Climate bonus: ${climateBonus.toStringAsFixed(1)}L
     exerciseMinutesController.clear();
      selectedClimate.value = "Normal/Moderate";
     result.value = "";
+    clicked.value=false;
+    showResult.value=false;
   }
 }

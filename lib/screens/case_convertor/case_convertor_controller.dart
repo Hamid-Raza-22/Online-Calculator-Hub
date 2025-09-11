@@ -93,6 +93,9 @@ class TextConverterController extends GetxController {
       Clipboard.setData(ClipboardData(text: outputController.text));
       Get.snackbar("Copied", "Converted text copied to clipboard",
           snackPosition: SnackPosition.BOTTOM);
+    }else{
+      Get.snackbar(" Please first convert text to any case!", "Converted box is Empty.",
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 
