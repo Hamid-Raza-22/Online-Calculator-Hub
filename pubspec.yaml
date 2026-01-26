@@ -37,6 +37,8 @@ dependencies:
   get:
   intl:
   audioplayers:
+  shared_preferences: ^2.2.2
+  webview_flutter: ^4.4.2
 
 dev_dependencies:
   flutter_test:
