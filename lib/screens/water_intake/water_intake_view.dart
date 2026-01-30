@@ -151,16 +151,16 @@ class WaterIntakeView extends StatelessWidget {
                       ),
                       SizedBox(height: 8),
                       _buildCitationLink(
-                        "National Academies of Sciences, Engineering, and Medicine",
-                        "https://www.nationalacademies.org/our-work/establishing-dietary-reference-intakes-for-water-potassium-sodium-chloride-and-sulfate",
-                      ),
-                      _buildCitationLink(
-                        "Mayo Clinic - Water: How much should you drink daily?",
+                        "Mayo Clinic - Water: How much should you drink every day?",
                         "https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/water/art-20044256",
                       ),
                       _buildCitationLink(
-                        "Centers for Disease Control and Prevention (CDC)",
-                        "https://www.cdc.gov/healthywater/drinking/nutrition/index.html",
+                        "Harvard Health Publishing - How much water should you drink?",
+                        "https://www.health.harvard.edu/staying-healthy/how-much-water-should-you-drink",
+                      ),
+                      _buildCitationLink(
+                        "National Academy of Medicine - Dietary Reference Intakes",
+                        "https://nap.nationalacademies.org/read/10925/chapter/6",
                       ),
                       SizedBox(height: 8),
                       TextWidget(
