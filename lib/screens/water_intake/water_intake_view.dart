@@ -7,6 +7,7 @@ import 'package:online_calculator_hub/widgets/custom_app_bar.dart';
 import 'package:online_calculator_hub/widgets/custom_drop_down.dart';
 import 'package:online_calculator_hub/widgets/custom_button.dart';
 import 'package:online_calculator_hub/widgets/custom_result_container.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../widgets/custom_text.dart';
 
@@ -123,9 +124,88 @@ class WaterIntakeView extends StatelessWidget {
                   textcolor: Colors.grey,
                   align: TextAlign.start,
                 ),
+                SizedBox(height: 20),
+                Container(
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.blue.shade50,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.blue.shade200),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextWidget(
+                        text: "Medical Citations & Sources",
+                        fontSize: 18,
+                        weight: FontWeight.bold,
+                        textcolor: AppColors.PrimaryColor,
+                      ),
+                      SizedBox(height: 8),
+                      TextWidget(
+                        text: "The water intake recommendations are based on guidelines from:",
+                        fontSize: 14,
+                        weight: FontWeight.normal,
+                        textcolor: Colors.grey.shade700,
+                        align: TextAlign.start,
+                      ),
+                      SizedBox(height: 8),
+                      _buildCitationLink(
+                        "National Academies of Sciences, Engineering, and Medicine",
+                        "https://www.nationalacademies.org/our-work/establishing-dietary-reference-intakes-for-water-potassium-sodium-chloride-and-sulfate",
+                      ),
+                      _buildCitationLink(
+                        "Mayo Clinic - Water: How much should you drink daily?",
+                        "https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/water/art-20044256",
+                      ),
+                      _buildCitationLink(
+                        "Centers for Disease Control and Prevention (CDC)",
+                        "https://www.cdc.gov/healthywater/drinking/nutrition/index.html",
+                      ),
+                      SizedBox(height: 8),
+                      TextWidget(
+                        text: "Note: Individual water needs vary based on health conditions, medications, and environmental factors. Consult with a healthcare professional for personalized hydration advice.",
+                        fontSize: 12,
+                        weight: FontWeight.normal,
+                        textcolor: Colors.grey.shade600,
+                        align: TextAlign.start,
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCitationLink(String text, String url) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: InkWell(
+        onTap: () async {
+          final uri = Uri.parse(url);
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
+          }
+        },
+        child: Row(
+          children: [
+            Icon(Icons.link, size: 16, color: Colors.blue.shade700),
+            SizedBox(width: 6),
+            Expanded(
+              child: Text(
+                text,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.blue.shade700,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

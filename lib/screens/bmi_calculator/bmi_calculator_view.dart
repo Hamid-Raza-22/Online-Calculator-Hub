@@ -7,6 +7,7 @@ import 'package:online_calculator_hub/widgets/custom_app_bar.dart';
 import 'package:online_calculator_hub/widgets/custom_button.dart';
 import '../../widgets/custom_result_container.dart';
 import 'bmi_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BmiCalculatorView extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -150,10 +151,89 @@ class BmiCalculatorView extends StatelessWidget {
                       ],
                     ),
                   ),
+                  SizedBox(height: 20),
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade50,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.blue.shade200),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextWidget(
+                          text: "Medical Citations & Sources",
+                          fontSize: 18,
+                          weight: FontWeight.bold,
+                          textcolor: AppColors.PrimaryColor,
+                        ),
+                        SizedBox(height: 8),
+                        TextWidget(
+                          text: "The BMI calculations and categories are based on guidelines from:",
+                          fontSize: 14,
+                          weight: FontWeight.normal,
+                          textcolor: Colors.grey.shade700,
+                          align: TextAlign.start,
+                        ),
+                        SizedBox(height: 8),
+                        _buildCitationLink(
+                          "World Health Organization (WHO)",
+                          "https://www.who.int/health-topics/obesity",
+                        ),
+                        _buildCitationLink(
+                          "Centers for Disease Control and Prevention (CDC)",
+                          "https://www.cdc.gov/healthyweight/assessing/bmi/index.html",
+                        ),
+                        _buildCitationLink(
+                          "National Institutes of Health (NIH)",
+                          "https://www.nhlbi.nih.gov/health/educational/lose_wt/BMI/bmicalc.htm",
+                        ),
+                        SizedBox(height: 8),
+                        TextWidget(
+                          text: "Note: BMI is a screening tool and should not be used as a diagnostic measure. Consult with a healthcare professional for personalized health advice.",
+                          fontSize: 12,
+                          weight: FontWeight.normal,
+                          textcolor: Colors.grey.shade600,
+                          align: TextAlign.start,
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCitationLink(String text, String url) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: InkWell(
+        onTap: () async {
+          final uri = Uri.parse(url);
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
+          }
+        },
+        child: Row(
+          children: [
+            Icon(Icons.link, size: 16, color: Colors.blue.shade700),
+            SizedBox(width: 6),
+            Expanded(
+              child: Text(
+                text,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.blue.shade700,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
